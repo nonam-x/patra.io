@@ -11,7 +11,10 @@
   "dependencies": {
     "@repo/database": "workspace:*",
     "@repo/logger": "workspace:*",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^22.15.3",
     "google-auth-library": "^10.5.0",
+    "jsonwebtoken": "^9.0.3",
     "zod": "^4.3.5"
   }
 }
