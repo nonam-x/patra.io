@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -42,75 +43,129 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Landing page palette */
+  --color-landing-bg: #EEEAE3;
+  --color-landing-bg-alt: #E5E1D9;
+  --color-landing-card: #FFFFFF;
+  --color-landing-elevated: #F7F5F1;
+  --color-landing-text: #343330;
+  --color-landing-text-secondary: #5C5A56;
+  --color-landing-text-muted: #8A8780;
+  --color-landing-accent: #3C402B;
+  --color-landing-accent-hover: #4A4F36;
+  --color-landing-border: #DDD9D1;
+  --color-landing-border-subtle: #E8E4DC;
+
+  /* Font families */
+  --font-sans: var(--font-inter), 'Inter Fallback', sans-serif;
+  --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --background: #EEEAE3;
+  --foreground: #343330;
+  --card: #FFFFFF;
+  --card-foreground: #343330;
+  --popover: #F7F5F1;
+  --popover-foreground: #343330;
+  --primary: #3C402B;
+  --primary-foreground: #FFFFFF;
+  --secondary: #E5E1D9;
+  --secondary-foreground: #343330;
+  --muted: #E8E4DC;
+  --muted-foreground: #5C5A56;
+  --accent: #E5E1D9;
+  --accent-foreground: #3C402B;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --border: #DDD9D1;
+  --input: #DDD9D1;
+  --ring: #3C402B;
+  --chart-1: #3C402B;
+  --chart-2: #5C5A56;
+  --chart-3: #8A8780;
+  --chart-4: #4A4F36;
+  --chart-5: #E5E1D9;
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #343330;
+  --sidebar-primary: #3C402B;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #E5E1D9;
+  --sidebar-accent-foreground: #3C402B;
+  --sidebar-border: #DDD9D1;
+  --sidebar-ring: #3C402B;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: #EEEAE3;
+  --foreground: #343330;
+  --card: #FFFFFF;
+  --card-foreground: #343330;
+  --popover: #F7F5F1;
+  --popover-foreground: #343330;
+  --primary: #3C402B;
+  --primary-foreground: #FFFFFF;
+  --secondary: #E5E1D9;
+  --secondary-foreground: #343330;
+  --muted: #E8E4DC;
+  --muted-foreground: #5C5A56;
+  --accent: #E5E1D9;
+  --accent-foreground: #3C402B;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #DDD9D1;
+  --input: #DDD9D1;
+  --ring: #3C402B;
+  --chart-1: #3C402B;
+  --chart-2: #5C5A56;
+  --chart-3: #8A8780;
+  --chart-4: #4A4F36;
+  --chart-5: #E5E1D9;
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #343330;
+  --sidebar-primary: #3C402B;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #E5E1D9;
+  --sidebar-accent-foreground: #3C402B;
+  --sidebar-border: #DDD9D1;
+  --sidebar-ring: #3C402B;
+}
+
+/* ───── Global resets ───── */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior: none;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--background);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overscroll-behavior: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: var(--background);
+  color: var(--foreground);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 @layer base {
@@ -121,3 +176,266 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ───── Landing page typography utilities ───── */
+.landing-display {
+  font-family: var(--font-inter);
+  font-weight: 700;
+  font-size: 4.5rem;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  color: var(--color-landing-text);
+}
+
+.landing-h2 {
+  font-family: var(--font-inter);
+  font-weight: 600;
+  font-size: 3rem;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--color-landing-text);
+}
+
+.landing-h3 {
+  font-family: var(--font-inter);
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--color-landing-text);
+}
+
+.landing-body-lg {
+  font-family: var(--font-inter);
+  font-weight: 400;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+  color: var(--color-landing-text-secondary);
+}
+
+.landing-body {
+  font-family: var(--font-inter);
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-landing-text-secondary);
+}
+
+.landing-caption {
+  font-family: var(--font-inter);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: var(--color-landing-text-muted);
+}
+
+/* ───── Landing page font override ───── */
+.landing-page {
+  font-family: var(--font-inter);
+}
+
+/* ───── Landing page card hover ───── */
+.landing-card {
+  background: var(--color-landing-card);
+  border: 1px solid var(--color-landing-border);
+  border-radius: 1rem;
+  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.landing-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(52, 51, 48, 0.06);
+}
+
+/* ───── Smooth selection ───── */
+.landing-page ::selection {
+  background: rgba(60, 64, 43, 0.15);
+  color: #343330;
+}
+
+@media (max-width: 768px) {
+  .landing-display {
+    font-size: 2.75rem;
+    letter-spacing: -0.03em;
+  }
+  .landing-h2 {
+    font-size: 2rem;
+  }
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* ───── Custom Utility Class Overrides to adapt the app from dark to light-cream landing page theme ───── */
+
+/* 1. Background Overrides */
+.bg-\[\#09090B\] {
+  background-color: var(--background) !important;
+}
+.bg-\[\#111111\] {
+  background-color: var(--card) !important;
+}
+.bg-\[\#18181B\] {
+  background-color: var(--secondary) !important;
+}
+.bg-\[\#8B5CF6\] {
+  background-color: var(--primary) !important;
+}
+
+/* Opacity and interactive states */
+.bg-\[\#111111\]\/30 {
+  background-color: color-mix(in srgb, var(--card) 30%, transparent) !important;
+}
+.bg-\[\#111111\]\/50 {
+  background-color: color-mix(in srgb, var(--card) 50%, transparent) !important;
+}
+.bg-\[\#18181B\]\/30 {
+  background-color: color-mix(in srgb, var(--secondary) 30%, transparent) !important;
+}
+.bg-\[\#18181B\]\/40 {
+  background-color: color-mix(in srgb, var(--secondary) 40%, transparent) !important;
+}
+.bg-\[\#8B5CF6\]\/10 {
+  background-color: color-mix(in srgb, var(--primary) 10%, transparent) !important;
+}
+
+.hover\:bg-\[\#18181B\]:hover {
+  background-color: var(--secondary) !important;
+}
+.hover\:bg-\[\#18181B\]\/30:hover {
+  background-color: color-mix(in srgb, var(--secondary) 30%, transparent) !important;
+}
+.hover\:bg-\[\#111111\]:hover {
+  background-color: var(--card) !important;
+}
+
+/* Special primary buttons: bg-[#FAFAFA] text-[#09090B] */
+.bg-\[\#FAFAFA\] {
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+}
+.hover\:bg-\[\#FAFAFA\]\/90:hover {
+  background-color: var(--color-landing-accent-hover) !important;
+}
+.text-\[\#09090B\] {
+  color: var(--primary-foreground) !important;
+}
+
+/* 2. Border Overrides */
+.border-\[\#27272A\] {
+  border-color: var(--border) !important;
+}
+.border-\[\#27272A\]\/50 {
+  border-color: color-mix(in srgb, var(--border) 50%, transparent) !important;
+}
+.border-\[\#8B5CF6\] {
+  border-color: var(--primary) !important;
+}
+.border-\[\#8B5CF6\]\/20 {
+  border-color: color-mix(in srgb, var(--primary) 20%, transparent) !important;
+}
+.hover\:border-\[\#3F3F46\]:hover {
+  border-color: var(--border) !important;
+}
+.hover\:border-\[\#8B5CF6\]:hover {
+  border-color: var(--primary) !important;
+}
+
+/* 3. Text and Muted Colors */
+.text-\[\#FAFAFA\] {
+  color: var(--foreground) !important;
+}
+.text-\[\#A1A1AA\] {
+  color: var(--muted-foreground) !important;
+}
+.text-\[\#71717A\] {
+  color: var(--muted-foreground) !important;
+}
+.text-\[\#8B5CF6\] {
+  color: var(--primary) !important;
+}
+.hover\:text-\[\#8B5CF6\]:hover {
+  color: var(--color-landing-accent-hover) !important;
+}
+.hover\:text-white:hover {
+  color: var(--foreground) !important;
+}
+
+/* Tabs active states overrides */
+.data-\[state\=active\]\:bg-\[\#27272A\][data-state=active] {
+  background-color: var(--secondary) !important;
+}
+.data-\[state\=active\]\:text-white[data-state=active] {
+  color: var(--foreground) !important;
+}
+
+/* 4. Focus states */
+.focus-visible\:ring-\[\#8B5CF6\]:focus-visible {
+  --tw-ring-color: var(--primary) !important;
+}
+.focus\:border-\[\#8B5CF6\]:focus {
+  border-color: var(--primary) !important;
+}
+.focus\:ring-\[\#8B5CF6\]\/20:focus {
+  --tw-ring-color: color-mix(in srgb, var(--primary) 20%, transparent) !important;
+}
+
+/* 5. Handle dark-theme components with explicit light text (text-white/text-zinc) */
+.bg-\[\#09090B\] .text-white,
+.bg-\[\#111111\] .text-white,
+.bg-\[\#18181B\] .text-white,
+.bg-\[\#09090B\]\/50 .text-white,
+.bg-\[\#111111\]\/50 .text-white,
+.bg-\[\#18181B\]\/30 .text-white,
+.bg-\[\#18181B\]\/40 .text-white {
+  color: var(--foreground) !important;
+}
+
+.bg-\[\#09090B\] .text-zinc-100, .bg-\[\#111111\] .text-zinc-100, .bg-\[\#18181B\] .text-zinc-100,
+.bg-\[\#09090B\] .text-zinc-200, .bg-\[\#111111\] .text-zinc-200, .bg-\[\#18181B\] .text-zinc-200,
+.bg-\[\#09090B\] .text-zinc-300, .bg-\[\#111111\] .text-zinc-300, .bg-\[\#18181B\] .text-zinc-300,
+.bg-\[\#09090B\] .text-zinc-400, .bg-\[\#111111\] .text-zinc-400, .bg-\[\#18181B\] .text-zinc-400 {
+  color: var(--muted-foreground) !important;
+}
+
+/* Ensure placeholder text matches the light-cream style */
+.placeholder\:text-zinc-600::placeholder {
+  color: var(--color-landing-text-muted) !important;
+}
+
+/* Exception: Keep text white for active/selected states, primary buttons, and dialog action buttons */
+.bg-\[\#09090B\] .bg-\[\#8B5CF6\] .text-white,
+.bg-\[\#111111\] .bg-\[\#8B5CF6\] .text-white,
+.bg-\[\#18181B\] .bg-\[\#8B5CF6\] .text-white,
+.bg-\[\#09090B\] button.bg-\[\#8B5CF6\] .text-white,
+.bg-\[\#111111\] button.bg-\[\#8B5CF6\] .text-white,
+.bg-\[\#18181B\] button.bg-\[\#8B5CF6\] .text-white,
+.bg-\[\#09090B\] .bg-primary .text-white,
+.bg-\[\#111111\] .bg-primary .text-white,
+.bg-\[\#18181B\] .bg-primary .text-white,
+.bg-\[\#09090B\] button.bg-primary,
+.bg-\[\#111111\] button.bg-primary,
+.bg-\[\#18181B\] button.bg-primary,
+.bg-\[\#09090B\] .bg-destructive .text-white,
+.bg-\[\#111111\] .bg-destructive .text-white,
+.bg-\[\#18181B\] .bg-destructive .text-white,
+.bg-\[\#09090B\] [data-state=active] .text-white,
+.bg-\[\#111111\] [data-state=active] .text-white,
+.bg-\[\#18181B\] [data-state=active] .text-white,
+.bg-\[\#09090B\] [data-state=active],
+.bg-\[\#111111\] [data-state=active],
+.bg-\[\#18181B\] [data-state=active] {
+  color: #FFFFFF !important;
+}
+

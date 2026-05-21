@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { GlobalProviders } from "~/providers/global";
+import { ErrorBoundary } from "~/components/app/error-boundary";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -13,8 +21,16 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Streamyst",
-  description: "Media Forwarding",
+  title: "Patra.io — Forms that feel like conversations",
+  description:
+    "Build beautiful, conversational forms with AI. Patra.io combines smart form creation, conditional logic, and real-time analytics into one elegant platform.",
+  keywords: ["form builder", "conversational forms", "AI forms", "survey builder", "typeform alternative"],
+  openGraph: {
+    title: "Patra.io — Forms that feel like conversations",
+    description: "Build beautiful, conversational forms with AI.",
+    siteName: "Patra.io",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -23,10 +39,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <GlobalProviders>{children}</GlobalProviders>
+    <html lang="en" className="h-full w-full bg-background overscroll-none">
+      <body className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} h-full w-full bg-background text-foreground antialiased overscroll-none`}>
+        <ErrorBoundary>
+          <GlobalProviders>{children}</GlobalProviders>
+        </ErrorBoundary>
       </body>
     </html>
   );
 }
+

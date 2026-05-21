@@ -6,12 +6,16 @@
     "dev": "dotenv -- turbo dev",
     "db:generate": "dotenv -- turbo db:generate",
     "db:migrate": "dotenv -- turbo db:migrate",
+    "db:seed": "dotenv -- turbo db:seed",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
+    "postcss": "^8.5.6",
     "prettier": "^3.7.4",
+    "tailwindcss": "^4.1.18",
     "turbo": "^2.7.2",
     "typescript": "5.9.2"
   },
