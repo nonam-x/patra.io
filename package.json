@@ -1,5 +1,5 @@
 {
-  "name": "trpc-monorepo",
+  "name": "patra-io-monorepo",
   "private": true,
   "scripts": {
     "build": "dotenv -- turbo build",

@@ -1,10 +1,10 @@
-import { db, eq, sql, count, desc } from "@repo/database";
+import { db, eq, sql, count, desc } from "@patra/database";
 import {
   formsTable,
   fieldsTable,
   submissionsTable,
   answersTable,
-} from "@repo/database/schema";
+} from "@patra/database/schema";
 
 class AnalyticsService {
   // ─── Form Analytics ──────────────────────────────────

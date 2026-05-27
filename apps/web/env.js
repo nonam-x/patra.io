@@ -14,7 +14,17 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    NEXT_PUBLIC_API_URL: z.string().optional(),
+    NEXT_PUBLIC_API_URL: z.string().optional().refine(
+      (val) => {
+        if (process.env.VERCEL === "1" && !val) {
+          return false;
+        }
+        return true;
+      },
+      {
+        message: "NEXT_PUBLIC_API_URL is required when deploying to Vercel (e.g., https://patra-io.onrender.com/trpc)",
+      }
+    ),
   },
 
   /**

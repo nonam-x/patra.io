@@ -1,10 +1,10 @@
-import UserService from "@repo/services/user";
-import FormService from "@repo/services/form";
-import FieldService from "@repo/services/field";
-import SubmissionService from "@repo/services/submission";
-import AnalyticsService from "@repo/services/analytics";
-import ThemeService from "@repo/services/theme";
-import EmailService from "@repo/services/email";
+import UserService from "@patra/services/user";
+import FormService from "@patra/services/form";
+import FieldService from "@patra/services/field";
+import SubmissionService from "@patra/services/submission";
+import AnalyticsService from "@patra/services/analytics";
+import ThemeService from "@patra/services/theme";
+import EmailService from "@patra/services/email";
 
 export const userService = new UserService();
 export const formService = new FormService();

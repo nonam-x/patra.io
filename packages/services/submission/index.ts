@@ -2,14 +2,14 @@ import {
   SubmitResponseInputType,
   SubmissionPaginationInputType,
 } from "./model";
-import { db, eq, desc, count, sql } from "@repo/database";
+import { db, eq, desc, count, sql } from "@patra/database";
 import {
   formsTable,
   fieldsTable,
   submissionsTable,
   answersTable,
   usersTable,
-} from "@repo/database/schema";
+} from "@patra/database/schema";
 import { z } from "zod";
 
 class SubmissionService {

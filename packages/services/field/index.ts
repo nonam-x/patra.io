@@ -3,8 +3,8 @@ import {
   UpdateFieldInputType,
   ReorderFieldsInputType,
 } from "./model";
-import { db, eq, and } from "@repo/database";
-import { fieldsTable, formsTable } from "@repo/database/schema";
+import { db, eq, and } from "@patra/database";
+import { fieldsTable, formsTable } from "@patra/database/schema";
 
 class FieldService {
   // ─── CRUD ────────────────────────────────────────────

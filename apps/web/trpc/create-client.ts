@@ -1,4 +1,4 @@
-import { httpLink, httpBatchStreamLink } from "@repo/trpc/client";
+import { httpLink, httpBatchStreamLink } from "@patra/trpc/client";
 
 interface CreateTRPCHttpBatchClientClientOpts {
   enableStreaming?: boolean;

@@ -3,13 +3,13 @@ import {
   UpdateFormInputType,
   PaginationInputType,
 } from "./model";
-import { db, eq, and, or, like, desc, sql, count } from "@repo/database";
+import { db, eq, and, or, like, desc, sql, count } from "@patra/database";
 import {
   formsTable,
   fieldsTable,
   themesTable,
   submissionsTable,
-} from "@repo/database/schema";
+} from "@patra/database/schema";
 import { randomBytes } from "node:crypto";
 
 class FormService {

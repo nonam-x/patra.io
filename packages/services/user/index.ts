@@ -7,8 +7,8 @@ import {
   createUserWithEmailAndPasswordInput,
   loginInput,
 } from "./model";
-import { db, eq } from "@repo/database";
-import { usersTable } from "@repo/database/schema";
+import { db, eq } from "@patra/database";
+import { usersTable } from "@patra/database/schema";
 import { createHmac, randomBytes } from "node:crypto";
 import jwt from "jsonwebtoken";
 import { env } from "../env";

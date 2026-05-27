@@ -1,10 +1,10 @@
 {
-  "name": "@repo/logger",
+  "name": "@patra/logger",
   "version": "1.0.0",
   "scripts": {},
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
+    "@patra/eslint-config": "workspace:*",
+    "@patra/typescript-config": "workspace:*",
     "typescript": "^5.9.3"
   },
   "dependencies": {

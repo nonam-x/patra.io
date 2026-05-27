@@ -3,10 +3,10 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   entry: ["./src/index.ts"],
   noExternal: [
-    "@repo/logger",
-    "@repo/trpc",
-    "@repo/services",
-    "@repo/database",
+    "@patra/logger",
+    "@patra/trpc",
+    "@patra/services",
+    "@patra/database",
   ],
   splitting: false,
   bundle: true,

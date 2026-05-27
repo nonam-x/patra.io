@@ -35,7 +35,7 @@ export const publicProcedure = tRPCContext.procedure;
  */
 const authMiddleware = tRPCContext.middleware(async ({ ctx, next }) => {
   // Lazy import to avoid circular init
-  const UserService = (await import("@repo/services/user")).default;
+  const UserService = (await import("@patra/services/user")).default;
 
   const token = ctx.token;
   if (!token) {

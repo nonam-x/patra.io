@@ -1,6 +1,6 @@
 import { CreateThemeInputType, UpdateThemeInputType } from "./model";
-import { db, eq, or } from "@repo/database";
-import { themesTable } from "@repo/database/schema";
+import { db, eq, or } from "@patra/database";
+import { themesTable } from "@patra/database/schema";
 
 class ThemeService {
   // ─── List ────────────────────────────────────────────

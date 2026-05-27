@@ -1,11 +1,11 @@
 import { EmailLogInputType } from "./model";
-import { db, eq, desc, count, sql, inArray } from "@repo/database";
+import { db, eq, desc, count, sql, inArray } from "@patra/database";
 import {
   emailsTable,
   formsTable,
   usersTable,
-} from "@repo/database/schema";
-import { logger } from "@repo/logger";
+} from "@patra/database/schema";
+import { logger } from "@patra/logger";
 
 class EmailService {
   /**
