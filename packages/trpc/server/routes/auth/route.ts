@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import {
   createUserWithEmailAndPasswordInput,
   createUserWithEmailAndPasswordOutput,
@@ -26,12 +27,25 @@ export const authRouter = router({
     .output(createUserWithEmailAndPasswordOutput)
     .mutation(async ({ input }) => {
       const { name, email, password } = input;
-      const result = await userService.createUserWithEmailAndPassword({
-        name,
-        email,
-        password,
-      });
-      return result;
+      try {
+        const result = await userService.createUserWithEmailAndPassword({
+          name,
+          email,
+          password,
+        });
+        return result;
+      } catch (err: any) {
+        if (err.message === "User is already registered") {
+          throw new TRPCError({
+            code: "CONFLICT",
+            message: err.message,
+          });
+        }
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: err.message ?? "Registration failed",
+        });
+      }
     }),
 
   login: publicProcedure
@@ -46,7 +60,14 @@ export const authRouter = router({
     .input(loginInput)
     .output(loginOutput)
     .mutation(async ({ input }) => {
-      return userService.loginWithEmailAndPassword(input);
+      try {
+        return await userService.loginWithEmailAndPassword(input);
+      } catch (err: any) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: err.message ?? "Invalid email or password",
+        });
+      }
     }),
 
   me: protectedProcedure
@@ -62,7 +83,12 @@ export const authRouter = router({
     .output(meOutput)
     .query(async ({ ctx }) => {
       const user = await userService.getUserById(ctx.user.id);
-      if (!user) throw new Error("User not found");
+      if (!user) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "User not found",
+        });
+      }
       return {
         ...user,
         createdAt: user.createdAt?.toISOString() ?? null,

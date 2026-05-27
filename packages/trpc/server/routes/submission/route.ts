@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import {
   submitResponseInput,
   submitResponseOutput,
@@ -35,10 +36,23 @@ export const submissionRouter = router({
     .output(submitResponseOutput)
     .mutation(async ({ ctx, input }) => {
       const { slug, ...data } = input;
-      return submissionService.submitResponse(slug, data, {
-        ipAddress: ctx.ipAddress,
-        userAgent: "trpc-client",
-      });
+      try {
+        return await submissionService.submitResponse(slug, data, {
+          ipAddress: ctx.ipAddress,
+          userAgent: "trpc-client",
+        });
+      } catch (err: any) {
+        if (err.message === "Form not found") {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: err.message,
+          });
+        }
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: err.message ?? "Failed to submit response",
+        });
+      }
     }),
 
   list: protectedProcedure

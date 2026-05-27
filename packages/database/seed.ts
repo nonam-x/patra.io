@@ -1,5 +1,6 @@
 import "dotenv/config";
-import { drizzle } from "drizzle-orm/node-postgres";
+import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
 import { env } from "./env";
 import {
   usersTable,
@@ -11,7 +12,8 @@ import {
 } from "./schema";
 import { createHmac, randomBytes } from "node:crypto";
 
-const db = drizzle(env.DATABASE_URL);
+const sql = neon(env.DATABASE_URL);
+const db = drizzle({ client: sql });
 
 function hashPassword(password: string, salt: string): string {
   return createHmac("sha256", salt).update(password).digest("hex");
@@ -33,7 +35,7 @@ async function seed() {
 
   // ─── 1. Themes ─────────────────────────────────────────
   console.log("  Creating system themes...");
-  const [modernTheme, classicTheme, darkTheme, dhurandharTheme] = await db
+  const systemThemes = await db
     .insert(themesTable)
     .values([
       {
@@ -76,25 +78,78 @@ async function seed() {
         isSystem: true,
       },
       {
-        id: "d40b0000-0000-0000-0000-000000000001",
-        name: "Dhurandhar (Tactical)",
+        name: "Minimalist Editorial",
         colors: {
-          background: "#0f0f0f",
-          card: "#171717",
-          primary: "#c49b63",
-          secondary: "#171717",
-          text: "#f5f1e8",
-          accent: "#8b1e1e",
-          muted: "#7d7d7d",
+          primary: "#111111",
+          secondary: "#f5f5f7",
+          background: "#fafafb",
+          text: "#1c1c1e",
+          accent: "#86868b",
         },
-        fontFamily: "IBM Plex Mono",
+        fontFamily: "Playfair Display",
+        borderRadius: "2px",
+        isSystem: true,
+      },
+      {
+        name: "Glassmorphism Aurora",
+        colors: {
+          primary: "#d8b4fe",
+          secondary: "#1e1b4b",
+          background: "#090514",
+          text: "#f8fafc",
+          accent: "#818cf8",
+        },
+        fontFamily: "Plus Jakarta Sans",
+        borderRadius: "16px",
+        isSystem: true,
+      },
+      {
+        name: "Cyberpunk Terminal",
+        colors: {
+          primary: "#39ff14",
+          secondary: "#0d0d0d",
+          background: "#050505",
+          text: "#00ff66",
+          accent: "#ff007f",
+        },
+        fontFamily: "Share Tech Mono",
         borderRadius: "0px",
+        isSystem: true,
+      },
+      {
+        name: "SaaS Dashboard Hub",
+        colors: {
+          primary: "#4f46e5",
+          secondary: "#ffffff",
+          background: "#f3f4f6",
+          text: "#1f2937",
+          accent: "#6366f1",
+        },
+        fontFamily: "Space Grotesk",
+        borderRadius: "8px",
+        isSystem: true,
+      },
+      {
+        name: "Playful Bubblegum",
+        colors: {
+          primary: "#ff2a85",
+          secondary: "#ffe033",
+          background: "#fffdf0",
+          text: "#5c2a18",
+          accent: "#ff6b00",
+        },
+        fontFamily: "Outfit",
+        borderRadius: "28px",
         isSystem: true,
       },
     ])
     .returning();
 
-  console.log(`  ✅ Created ${4} system themes`);
+  const modernTheme = systemThemes.find((t) => t.name === "Modern Gradient");
+  const classicTheme = systemThemes.find((t) => t.name === "Classic Professional");
+  const darkTheme = systemThemes.find((t) => t.name === "Dark Elegant");
+
+  console.log(`  ✅ Created ${systemThemes.length} system themes`);
 
   // ─── 2. Demo User ──────────────────────────────────────
   console.log("  Creating demo user...");
@@ -368,73 +423,7 @@ async function seed() {
     },
   ]);
 
-  // Form 4: Operation Dhurandhar Recruitment Form
-  const [dhurandharForm] = await db
-    .insert(formsTable)
-    .values({
-      creatorId: demoUser!.id,
-      title: "Operation Dhurandhar Recruitment",
-      description: "CLASSIFIED // TOP SECRET. LEVEL 4 ACCESS REQUIRED. INITIATE MISSION TO BEGIN PRE-SCREENING.",
-      slug: generateSlug("operation-dhurandhar-recruitment"),
-      visibility: "public",
-      status: "published",
-      themeId: "d40b0000-0000-0000-0000-000000000001",
-      settings: {
-        showProgressBar: true,
-      },
-    })
-    .returning();
-
-  await db.insert(fieldsTable).values([
-    {
-      formId: dhurandharForm!.id,
-      type: "welcome",
-      label: "Operation Dhurandhar Recruitment Form",
-      description: "CLASSIFIED // TOP SECRET. LEVEL 4 ACCESS REQUIRED. INITIATE MISSION TO BEGIN PRE-SCREENING.",
-      order: 0,
-    },
-    {
-      formId: dhurandharForm!.id,
-      type: "short_text",
-      label: "Enter your codename / identifier:",
-      placeholder: "e.g. Agent Phoenix",
-      required: true,
-      order: 1,
-    },
-    {
-      formId: dhurandharForm!.id,
-      type: "email",
-      label: "Secure communication address:",
-      placeholder: "agent@agency.gov",
-      required: true,
-      order: 2,
-    },
-    {
-      formId: dhurandharForm!.id,
-      type: "multiple_choice",
-      label: "Choose your primary specialization:",
-      required: true,
-      options: ["Cyber Warfare", "Clandestine Operations", "Tactical Reconnaissance", "Signal Intelligence"],
-      order: 3,
-    },
-    {
-      formId: dhurandharForm!.id,
-      type: "rating",
-      label: "Assess your clearance level readiness:",
-      required: true,
-      properties: { maxRating: 5, shape: "star" },
-      order: 4,
-    },
-    {
-      formId: dhurandharForm!.id,
-      type: "thank_you",
-      label: "TRANSMISSION RECEIVED",
-      description: "Thank you, recruit. Your classification is pending. We will contact you via secure channels.",
-      order: 5,
-    },
-  ]);
-
-  console.log(`  ✅ Created 4 sample forms with fields`);
+  console.log(`  ✅ Created 3 sample forms with fields`);
 
   // ─── 4. Sample Submissions ─────────────────────────────
   console.log("  Creating sample submissions...");

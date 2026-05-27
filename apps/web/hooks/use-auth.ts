@@ -17,6 +17,7 @@ export function useAuth() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [token, setToken] = useState<string | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Initialize token from localStorage on mount
   useEffect(() => {
@@ -24,12 +25,13 @@ export function useAuth() {
       const stored = localStorage.getItem("patra_token");
       setToken(stored);
     }
+    setIsInitialized(true);
   }, []);
 
   // Get current user query. Only active if a token is present.
   const {
     data: user,
-    isLoading,
+    isLoading: queryLoading,
     refetch,
     isError,
   } = trpc.auth.me.useQuery(undefined, {
@@ -70,7 +72,7 @@ export function useAuth() {
   return {
     user: user as User | undefined,
     isAuthenticated: !!user,
-    isLoading: isLoading && !!token,
+    isLoading: !isInitialized || (!!token && queryLoading),
     isLoggingIn: loginMutation.isPending,
     isSigningUp: signupMutation.isPending,
     loginError: loginMutation.error?.message ?? null,
