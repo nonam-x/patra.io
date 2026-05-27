@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,8 +22,14 @@ const signupSchema = z.object({
 type SignupFormValues = z.infer<typeof signupSchema>;
 
 export function SignupForm() {
-  const { signup, isSigningUp, signupError } = useAuth();
+  const { signup, isSigningUp, signupError, user } = useAuth();
   const [success, setSuccess] = useState(false);
+  const router = useRouter();
+
+  // BUG-09 fix: redirect if already authenticated
+  useEffect(() => {
+    if (user) router.push("/dashboard");
+  }, [user, router]);
 
   const {
     register,

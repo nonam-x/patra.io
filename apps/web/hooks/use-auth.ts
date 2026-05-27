@@ -13,20 +13,27 @@ export interface User {
   plan: string;
 }
 
+/** Helper: set a lightweight session indicator cookie for Next.js middleware */
+function setSessionCookie(present: boolean) {
+  if (typeof document === "undefined") return;
+  if (present) {
+    document.cookie = "patra_logged_in=1;path=/;max-age=604800;SameSite=Lax";
+  } else {
+    document.cookie = "patra_logged_in=;path=/;max-age=0";
+  }
+}
+
 export function useAuth() {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const [token, setToken] = useState<string | null>(null);
-  const [isInitialized, setIsInitialized] = useState(false);
 
-  // Initialize token from localStorage on mount
-  useEffect(() => {
+  // BUG-03 fix: Initialize token synchronously so the first render already has it
+  const [token, setToken] = useState<string | null>(() => {
     if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("patra_token");
-      setToken(stored);
+      return localStorage.getItem("patra_token");
     }
-    setIsInitialized(true);
-  }, []);
+    return null;
+  });
 
   // Get current user query. Only active if a token is present.
   const {
@@ -40,9 +47,19 @@ export function useAuth() {
     staleTime: 5 * 60 * 1000,
   });
 
+  // BUG-06 fix: If auth.me errors (expired/invalid JWT), clear the stale token
+  useEffect(() => {
+    if (isError && token) {
+      localStorage.removeItem("patra_token");
+      setSessionCookie(false);
+      setToken(null);
+    }
+  }, [isError, token]);
+
   const loginMutation = trpc.auth.login.useMutation({
     onSuccess: (data) => {
       localStorage.setItem("patra_token", data.token);
+      setSessionCookie(true);
       setToken(data.token);
       queryClient.invalidateQueries();
       router.push("/dashboard");
@@ -52,34 +69,33 @@ export function useAuth() {
   const signupMutation = trpc.auth.createUserWithEmailAndPassword.useMutation({
     onSuccess: (data) => {
       localStorage.setItem("patra_token", data.token);
+      setSessionCookie(true);
       setToken(data.token);
       queryClient.invalidateQueries();
       router.push("/dashboard");
     },
   });
 
+  // BUG-18 fix: removed unnecessary handleLogout wrapper
   const logout = () => {
     localStorage.removeItem("patra_token");
+    setSessionCookie(false);
     setToken(null);
     queryClient.clear();
     router.push("/login");
   };
 
-  const handleLogout = () => {
-    logout();
-  };
-
   return {
     user: user as User | undefined,
     isAuthenticated: !!user,
-    isLoading: !isInitialized || (!!token && queryLoading),
+    isLoading: !!token && queryLoading,
     isLoggingIn: loginMutation.isPending,
     isSigningUp: signupMutation.isPending,
     loginError: loginMutation.error?.message ?? null,
     signupError: signupMutation.error?.message ?? null,
     login: loginMutation.mutateAsync,
     signup: signupMutation.mutateAsync,
-    logout: handleLogout,
+    logout,
     refetchUser: refetch,
   };
 }

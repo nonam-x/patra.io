@@ -1,4 +1,5 @@
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 import {
   createUserWithEmailAndPasswordInput,
   createUserWithEmailAndPasswordOutput,
@@ -95,6 +96,3 @@ export const authRouter = router({
       };
     }),
 });
-
-// Need to import z for the .input(z.undefined()) on me route
-import { z } from "zod";

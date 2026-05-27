@@ -40,7 +40,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="overscroll-x-none">
-      <body className={`${inter.variable} ${geistSans.variable} ${geistMono.variable}overflow-x-hidden `}>
+      <body className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} overflow-x-hidden`}>
+        {/* BUG-12 fix: Ensure landing page elements are visible if JS fails */}
+        <noscript>
+          <style>{`[style*="opacity: 0"], [style*="opacity:0"] { opacity: 1 !important; transform: none !important; }`}</style>
+        </noscript>
         <ErrorBoundary>
           <GlobalProviders>{children}</GlobalProviders>
         </ErrorBoundary>

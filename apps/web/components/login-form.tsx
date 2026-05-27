@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,7 +21,13 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
-  const { login, isLoggingIn, loginError } = useAuth();
+  const { login, isLoggingIn, loginError, user } = useAuth();
+  const router = useRouter();
+
+  // BUG-09 fix: redirect if already authenticated
+  useEffect(() => {
+    if (user) router.push("/dashboard");
+  }, [user, router]);
 
   const {
     register,
@@ -122,7 +129,7 @@ export function LoginForm() {
               </label>
               <button
                 type="button"
-                onClick={() => toast.info("Password recovery is simulated in dev mode.")}
+                onClick={() => toast.info("Password reset is coming soon.")}
                 className="text-xs hover:underline font-medium"
                 style={{ color: "var(--color-landing-accent)" }}
               >

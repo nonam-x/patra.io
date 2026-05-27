@@ -8,16 +8,17 @@ import { Toaster } from "~/components/ui/sonner";
 import { trpc } from "~/trpc/client";
 import { createTRPCHttpBatchClientClient } from "~/trpc/create-client";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnMount: true,
-      staleTime: Infinity,
-    },
-  },
-});
-
 export const GlobalProviders: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // BUG-03 fix: QueryClient must be inside the component to avoid SSR cache leaks
+  const [queryClient] = useState(() => new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnMount: true,
+        staleTime: Infinity,
+      },
+    },
+  }));
+
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [createTRPCHttpBatchClientClient()],

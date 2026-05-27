@@ -63,11 +63,15 @@ const authMiddleware = tRPCContext.middleware(async ({ ctx, next }) => {
 
 /**
  * Rate-limit middleware — inline to avoid circular dependency.
- * In-memory sliding window: 10 requests/minute per IP.
+ * In-memory sliding window: 30 requests/minute per IP.
+ *
+ * NOTE: This is per-process in-memory. It resets on deploys/cold-starts
+ * and does not share state across multiple instances. For production
+ * at scale, replace with Redis-based rate limiting (e.g. @upstash/ratelimit).
  */
 const rateLimitStore = new Map<string, number[]>();
 const WINDOW_MS = 60_000;
-const MAX_REQUESTS = 10;
+const MAX_REQUESTS = 30;
 
 // Cleanup stale entries every 5 minutes
 setInterval(() => {

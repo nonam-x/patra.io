@@ -69,7 +69,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 onClick={this.handleReset}
                 className="bg-white hover:bg-white/90 text-black text-xs font-bold px-5 h-9 rounded-lg flex items-center gap-1.5 transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)] active:scale-[0.98]"
               >
-                <RefreshCw size={12} className="animate-spin-slow" />
+                <RefreshCw size={12} className="animate-spin" />
                 <span>Reload Application</span>
               </Button>
             </div>

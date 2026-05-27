@@ -1,5 +1,10 @@
 import { LoginForm } from "~/components/login-form"
+import type { Metadata } from "next"
 
+export const metadata: Metadata = {
+  title: "Login — Patra.io",
+  description: "Sign in to your Patra.io account to manage your forms, view analytics, and more.",
+};
 export default function Page() {
   return (
     <div className="relative flex min-h-svh w-full items-center justify-center p-6 md:p-10 bg-[var(--color-landing-bg)] overflow-hidden">
