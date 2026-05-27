@@ -19,7 +19,7 @@ export function ResponsesChart({ data }: ResponsesChartProps) {
   // If no data, display a placeholder
   if (!data || data.length === 0) {
     return (
-      <div className="border border-[#27272A] rounded-xl bg-[#111111] p-6 text-center text-xs text-[#71717A] font-mono h-80 flex flex-col justify-center items-center">
+      <div className="border border-border rounded-xl bg-card p-6 text-center text-xs text-muted-foreground h-80 flex flex-col justify-center items-center">
         No response data available for the last 30 days.
       </div>
     );
@@ -38,13 +38,13 @@ export function ResponsesChart({ data }: ResponsesChartProps) {
   });
 
   return (
-    <div className="border border-[#27272A] rounded-xl bg-[#111111] p-6 space-y-4 font-sans">
+    <div className="border border-border rounded-xl bg-card p-4 sm:p-6 space-y-4 font-sans">
       <div>
-        <h4 className="text-sm font-semibold text-white">Responses Over Time</h4>
-        <p className="text-xs text-[#A1A1AA]">Daily completions for the last 30 days.</p>
+        <h4 className="text-sm font-semibold text-foreground">Responses Over Time</h4>
+        <p className="text-xs text-muted-foreground">Daily completions for the last 30 days.</p>
       </div>
 
-      <div className="h-72 w-full pt-4">
+      <div className="h-56 sm:h-72 w-full pt-4">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={formattedData}
@@ -52,21 +52,21 @@ export function ResponsesChart({ data }: ResponsesChartProps) {
           >
             <defs>
               <linearGradient id="colorCount" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.2} />
-                <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0} />
+                <stop offset="5%" stopColor="#3C402B" stopOpacity={0.15} />
+                <stop offset="95%" stopColor="#3C402B" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1E1E24" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#E8E4DC" vertical={false} />
             <XAxis
               dataKey="formattedDate"
-              stroke="#71717A"
+              stroke="#8A8780"
               fontSize={10}
               tickLine={false}
               axisLine={false}
               dy={10}
             />
             <YAxis
-              stroke="#71717A"
+              stroke="#8A8780"
               fontSize={10}
               tickLine={false}
               axisLine={false}
@@ -74,19 +74,20 @@ export function ResponsesChart({ data }: ResponsesChartProps) {
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: "#111111",
-                border: "1px solid #27272A",
-                borderRadius: "8px",
+                backgroundColor: "#FFFFFF",
+                border: "1px solid #DDD9D1",
+                borderRadius: "10px",
                 fontSize: "11px",
-                color: "#FFFFFF",
-                fontFamily: "monospace",
+                color: "#343330",
+                fontFamily: "Inter, sans-serif",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
               }}
             />
             <Area
               type="monotone"
               dataKey="count"
               name="Responses"
-              stroke="#8B5CF6"
+              stroke="#3C402B"
               strokeWidth={2}
               fillOpacity={1}
               fill="url(#colorCount)"

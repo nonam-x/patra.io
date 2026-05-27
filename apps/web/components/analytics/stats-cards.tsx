@@ -26,48 +26,51 @@ export function StatsCards({
     {
       title: "Total Responses",
       value: totalResponses.toLocaleString(),
-      desc: "Completed submissions collected",
+      desc: "Completed submissions",
       icon: FileText,
-      color: "text-indigo-400 bg-indigo-500/10 border-indigo-500/20",
+      iconColor: "text-primary/60",
+      iconBg: "bg-primary/5 border-primary/10",
     },
     {
       title: "Completion Rate",
       value: `${completionRate}%`,
-      desc: "Percentage of started forms completed",
+      desc: "Started forms completed",
       icon: Award,
-      color: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
+      iconColor: "text-emerald-600/60",
+      iconBg: "bg-emerald-50 border-emerald-200/30",
     },
     {
-      title: "Avg Completion Time",
+      title: "Avg Time",
       value: formatTime(avgCompletionTimeSeconds),
-      desc: "Average session duration to submit",
+      desc: "Average session duration",
       icon: Clock,
-      color: "text-amber-400 bg-amber-500/10 border-amber-500/20",
+      iconColor: "text-amber-600/60",
+      iconBg: "bg-amber-50 border-amber-200/30",
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-sans">
+    <div className="grid grid-cols-3 gap-2 md:gap-4 font-sans">
       {cards.map((card, i) => {
         const Icon = card.icon;
         return (
           <div
             key={i}
-            className="p-6 rounded-xl border border-[#27272A] bg-[#111111] relative overflow-hidden flex flex-col justify-between"
+            className="p-3 sm:p-5 rounded-xl border border-border bg-card relative overflow-hidden flex flex-col justify-between hover:shadow-sm transition-all duration-200"
           >
-            <div className="flex justify-between items-start mb-4">
-              <span className="text-[10px] text-[#A1A1AA] font-mono font-bold uppercase tracking-wider">
+            <div className="flex justify-between items-start mb-2 sm:mb-4">
+              <span className="text-[10px] sm:text-[11px] text-muted-foreground font-medium truncate">
                 {card.title}
               </span>
-              <div className={`p-2 rounded-lg border ${card.color}`}>
-                <Icon size={14} />
+              <div className={`hidden sm:flex p-2 rounded-lg border ${card.iconBg}`}>
+                <Icon size={14} className={card.iconColor} />
               </div>
             </div>
             <div>
-              <h3 className="text-3xl font-bold tracking-tight text-white">
+              <h3 className="text-lg sm:text-3xl font-bold tracking-tight text-foreground">
                 {card.value}
               </h3>
-              <p className="text-[11px] text-[#71717A] mt-1 leading-normal">
+              <p className="hidden sm:block text-[11px] text-muted-foreground mt-1 leading-normal">
                 {card.desc}
               </p>
             </div>

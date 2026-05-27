@@ -17,20 +17,25 @@ import Footer from "~/components/landing/footer";
 
 export default function LandingPage() {
   return (
-    <div className="landing-page min-h-screen overflow-x-hidden" style={{ backgroundColor: "var(--color-landing-bg)" }}>
-      <Navbar />
-      <Hero />
-      <TrustedBy />
-      <FormPreview />
-      <AnalyticsShowcase />
-      <ThemesSection />
-      <FeaturesGrid />
-      <ExplorePreview />
-      <Pricing />
-      <Testimonials />
-      <FAQ />
-      <CTASection />
-      <Footer />
+    <div 
+      className="landing-page min-h-screen w-full p-0 sm:p-4 md:p-6 lg:p-0 transition-all duration-300"
+      style={{ backgroundColor: "var(--color-landing-bg-alt)" }}
+    >
+   
+        <Navbar />
+        <Hero />
+        <TrustedBy />
+        <FormPreview />
+        <AnalyticsShowcase />
+        <ThemesSection />
+        <FeaturesGrid />
+        <ExplorePreview />
+        <Pricing />
+        <Testimonials />
+        <FAQ />
+        <CTASection />
+        <Footer />
+    
     </div>
   );
 }

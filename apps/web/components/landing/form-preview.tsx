@@ -73,9 +73,9 @@ export default function FormPreview() {
           }}
         >
           <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full" style={{ backgroundColor: "#FF6159" }} />
-            <span className="w-3 h-3 rounded-full" style={{ backgroundColor: "#FFC02E" }} />
-            <span className="w-3 h-3 rounded-full" style={{ backgroundColor: "#27CA41" }} />
+            <span className="w-3 h-3 rounded-full" style={{ backgroundColor: "#fa766fff" }} />
+            <span className="w-3 h-3 rounded-full" style={{ backgroundColor: "#ffce5cff" }} />
+            <span className="w-3 h-3 rounded-full" style={{ backgroundColor: "#55cf69ff" }} />
           </div>
           <span
             className="px-3 py-1 rounded-md font-mono text-[11px]"
@@ -88,7 +88,7 @@ export default function FormPreview() {
             patra.io/share/demo-form
           </span>
           <span
-            className="text-[10px] font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider"
+            className="text-[6px] font-semibold px-2.5 py-1 rounded-sm uppercase tracking-wider"
             style={{
               backgroundColor: "rgba(60, 64, 43, 0.1)",
               color: "var(--color-landing-accent)",
@@ -104,7 +104,7 @@ export default function FormPreview() {
           style={{ backgroundColor: "var(--color-landing-card)", minHeight: "360px" }}
         >
           {/* Progress Bar */}
-          <div className="absolute top-0 left-0 w-full h-1" style={{ backgroundColor: "var(--color-landing-border)" }}>
+          <div className="absolute top-0 left-0 w-full h-[1px]" style={{ backgroundColor: "var(--color-landing-border)" }}>
             <div
               className="h-full transition-all duration-500 ease-out rounded-r-full"
               style={{
@@ -229,7 +229,7 @@ export default function FormPreview() {
                   }}
                 >
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--color-landing-accent)" }}>
-                    <path d="M20 6 9 17l-5-5"/>
+                    <path d="M20 6 9 17l-5-5" />
                   </svg>
                 </div>
                 <h3
@@ -251,7 +251,7 @@ export default function FormPreview() {
                       color: "var(--color-landing-text)",
                     }}
                   >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></svg>
                     Start Again
                   </button>
                   <Link href="/signup">
@@ -263,7 +263,7 @@ export default function FormPreview() {
                       }}
                     >
                       Create a Form
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
                     </button>
                   </Link>
                 </div>

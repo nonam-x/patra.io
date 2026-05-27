@@ -115,9 +115,9 @@ export default function FormBuilderPage() {
 
   if (authLoading || formLoading || !form) {
     return (
-      <div className="min-h-screen bg-[#09090B] flex items-center justify-center">
-        <div className="text-[#A1A1AA] text-xs animate-pulse font-mono uppercase tracking-wider">
-          loading canvas editor...
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-muted-foreground text-xs animate-pulse font-medium">
+          Loading editor...
         </div>
       </div>
     );
@@ -193,7 +193,7 @@ export default function FormBuilderPage() {
   };
 
   return (
-    <div className="h-screen bg-[#09090B] text-[#FAFAFA] flex flex-col font-sans select-none overflow-hidden relative">
+    <div className="h-screen bg-background text-foreground flex flex-col font-sans select-none overflow-hidden relative">
       <BuilderHeader
         formId={id}
         title={form.title}
@@ -203,48 +203,23 @@ export default function FormBuilderPage() {
         onTogglePublish={handleTogglePublish}
         onOpenShare={() => setIsShareOpen(true)}
         onOpenPreview={() => setIsPreviewOpen(true)}
+        leftSidebarOpen={leftSidebarOpen}
+        setLeftSidebarOpen={setLeftSidebarOpen}
+        rightSidebarOpen={rightSidebarOpen}
+        setRightSidebarOpen={setRightSidebarOpen}
       />
 
       <div className="flex-1 flex overflow-hidden relative">
-        {/* Floating Toggle buttons for mobile/tablet */}
-        <div className="lg:hidden absolute top-4 left-4 z-30 flex gap-2">
-          <Button
-            onClick={() => {
-              setLeftSidebarOpen(!leftSidebarOpen);
-              setRightSidebarOpen(false);
-            }}
-            variant="outline"
-            size="sm"
-            className="bg-[#111111]/90 hover:bg-[#18181B] border-[#27272A] text-[#A1A1AA] hover:text-white backdrop-blur-xs text-[10px] h-8 rounded-lg font-bold font-mono tracking-wider shadow-md"
-          >
-            Structure
-          </Button>
-        </div>
-
-        <div className="lg:hidden absolute top-4 right-4 z-30 flex gap-2">
-          <Button
-            onClick={() => {
-              setRightSidebarOpen(!rightSidebarOpen);
-              setLeftSidebarOpen(false);
-            }}
-            variant="outline"
-            size="sm"
-            className="bg-[#111111]/90 hover:bg-[#18181B] border-[#27272A] text-[#A1A1AA] hover:text-white backdrop-blur-xs text-[10px] h-8 rounded-lg font-bold font-mono tracking-wider shadow-md"
-          >
-            Options
-          </Button>
-        </div>
-
         {/* Backdrops */}
         {leftSidebarOpen && (
           <div
-            className="lg:hidden fixed inset-0 bg-black/60 z-30 top-14"
+            className="lg:hidden fixed inset-0 bg-foreground/10 backdrop-blur-[2px] z-30 top-12 transition-all duration-300"
             onClick={() => setLeftSidebarOpen(false)}
           />
         )}
         {rightSidebarOpen && (
           <div
-            className="lg:hidden fixed inset-0 bg-black/60 z-30 top-14"
+            className="lg:hidden fixed inset-0 bg-foreground/10 backdrop-blur-[2px] z-30 top-12 transition-all duration-300"
             onClick={() => setRightSidebarOpen(false)}
           />
         )}
@@ -259,6 +234,7 @@ export default function FormBuilderPage() {
           onReorderFields={handleReorderFields}
           onAddField={handleAddField}
           isOpen={leftSidebarOpen}
+          onClose={() => setLeftSidebarOpen(false)}
         />
 
         <FieldCanvas
@@ -282,6 +258,7 @@ export default function FormBuilderPage() {
             updateFormMutation.mutate({ id, [property]: value });
           }}
           isOpen={rightSidebarOpen}
+          onClose={() => setRightSidebarOpen(false)}
         />
       </div>
 

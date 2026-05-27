@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { LayoutTemplate, Plus, Loader2, Sparkles, Heart, FileText, CheckCircle, ShieldAlert } from "lucide-react";
+import { LayoutTemplate, Plus, Loader2, Sparkles, Heart, FileText, CheckCircle } from "lucide-react";
 import { trpc } from "~/trpc/client";
 import { Button } from "~/components/ui/button";
 import { toast } from "sonner";
@@ -13,7 +13,6 @@ interface TemplateField {
   required: boolean;
   placeholder?: string;
   options?: string[];
-  description?: string;
 }
 
 interface Template {
@@ -23,7 +22,6 @@ interface Template {
   icon: any;
   color: string;
   badge: string;
-  themeId?: string;
   fields: TemplateField[];
 }
 
@@ -147,52 +145,6 @@ const templates: Template[] = [
       },
     ],
   },
-  {
-    id: "dhurandhar",
-    title: "Operation Dhurandhar Recruitment",
-    description: "CLASSIFIED // TOP SECRET. LEVEL 4 ACCESS REQUIRED. INITIATE MISSION TO BEGIN PRE-SCREENING.",
-    icon: ShieldAlert,
-    color: "text-[#c49b63] bg-[#c49b63]/10 border-[#c49b63]/20",
-    badge: "Tactical",
-    themeId: "d40b0000-0000-0000-0000-000000000001",
-    fields: [
-      {
-        type: "welcome",
-        label: "Operation Dhurandhar Recruitment Form",
-        description: "CLASSIFIED // TOP SECRET. LEVEL 4 ACCESS REQUIRED. INITIATE MISSION TO BEGIN PRE-SCREENING.",
-        required: false,
-      },
-      {
-        type: "short_text",
-        label: "Enter your codename / identifier:",
-        required: true,
-        placeholder: "e.g. Agent Phoenix",
-      },
-      {
-        type: "email",
-        label: "Secure communication address:",
-        required: true,
-        placeholder: "agent@agency.gov",
-      },
-      {
-        type: "multiple_choice",
-        label: "Choose your primary specialization:",
-        required: true,
-        options: ["Cyber Warfare", "Clandestine Operations", "Tactical Reconnaissance", "Signal Intelligence"],
-      },
-      {
-        type: "rating",
-        label: "Assess your clearance level readiness:",
-        required: true,
-      },
-      {
-        type: "thank_you",
-        label: "TRANSMISSION RECEIVED",
-        description: "Thank you, recruit. Your classification is pending. We will contact you via secure channels.",
-        required: false,
-      },
-    ],
-  },
 ];
 
 export default function TemplatesPage() {
@@ -211,7 +163,6 @@ export default function TemplatesPage() {
         title: template.title,
         description: template.description,
         visibility: "public",
-        themeId: template.themeId,
       });
 
       // 2. Create the Fields sequentially to maintain correct order
@@ -221,7 +172,6 @@ export default function TemplatesPage() {
           formId: newForm.id,
           type: f.type,
           label: f.label,
-          description: f.description,
           order: i,
           required: f.required,
           placeholder: f.placeholder,
@@ -239,13 +189,13 @@ export default function TemplatesPage() {
   };
 
   return (
-    <div className="flex-grow bg-[#09090B] font-sans p-6 md:p-8 space-y-8 select-none">
+    <div className="flex-grow bg-background font-sans p-6 md:p-8 space-y-8 select-none">
       {/* Header section */}
-      <div className="flex flex-col gap-1 border-b border-[#27272A]/50 pb-6">
-        <h2 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-          <LayoutTemplate className="text-[#8B5CF6]" size={20} /> Templates Library
+      <div className="flex flex-col gap-1 border-b border-border/50 pb-6">
+        <h2 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
+          <LayoutTemplate className="text-primary" size={20} /> Templates Library
         </h2>
-        <p className="text-xs text-[#A1A1AA]">
+        <p className="text-xs text-muted-foreground">
           Kickstart your form creation process using pre-built conversational layouts.
         </p>
       </div>
@@ -259,38 +209,38 @@ export default function TemplatesPage() {
           return (
             <div
               key={template.id}
-              className="p-6 rounded-xl border border-[#27272A] bg-[#111111] hover:border-zinc-700 transition-all duration-200 flex flex-col justify-between h-60 hover:shadow-xl relative overflow-hidden"
+              className="p-6 rounded-xl border border-border bg-card hover:border-muted-foreground/30 transition-all duration-200 flex flex-col justify-between h-60 hover:shadow-sm relative overflow-hidden"
             >
               <div className="space-y-4">
                 <div className="flex justify-between items-start">
                   <div className={`p-2.5 rounded-xl border ${template.color} shrink-0`}>
                     <Icon size={16} />
                   </div>
-                  <span className="text-[8px] font-bold font-mono px-2 py-0.5 rounded border border-[#8B5CF6]/15 text-[#8B5CF6] bg-[#8B5CF6]/5 uppercase tracking-wider">
+                  <span className="text-[8px] font-bold font-mono px-2 py-0.5 rounded border border-primary/20 text-primary bg-primary/5 uppercase tracking-wider">
                     {template.badge}
                   </span>
                 </div>
 
                 <div className="space-y-1.5">
-                  <h3 className="text-sm font-bold text-white leading-normal truncate">
+                  <h3 className="text-sm font-bold text-foreground leading-normal truncate">
                     {template.title}
                   </h3>
-                  <p className="text-xs text-[#A1A1AA] leading-relaxed line-clamp-2">
+                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
                     {template.description}
                   </p>
                 </div>
               </div>
 
               {/* Footer action */}
-              <div className="pt-4 border-t border-[#27272A]/50 flex justify-between items-center">
-                <span className="text-[10px] font-mono text-[#71717A]">
+              <div className="pt-4 border-t border-border/50 flex justify-between items-center">
+                <span className="text-[10px] font-mono text-muted-foreground">
                   {template.fields.length} questions
                 </span>
 
                 <Button
                   disabled={creatingTemplateId !== null}
                   onClick={() => handleUseTemplate(template)}
-                  className="bg-white hover:bg-white/90 text-black text-xs font-bold px-3.5 h-8.5 rounded-lg flex items-center gap-1.5 transition-all shadow-[0_4px_15px_rgba(255,255,255,0.1)]"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs font-semibold px-3.5 h-8.5 rounded-xl flex items-center gap-1.5 transition-all duration-200 shadow-sm active:scale-[0.98]"
                 >
                   {isCreating ? (
                     <>

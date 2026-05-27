@@ -37,12 +37,11 @@ export default function Footer() {
           {/* Logo + Tagline */}
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div
-                className="w-7 h-7 rounded-lg flex items-center justify-center"
-                style={{ backgroundColor: "#FFFFFF" }}
-              >
-                <span className="font-bold text-xs" style={{ color: "#343330" }}>P</span>
-              </div>
+              <img 
+                src="/logos/patra.io-logo.png" 
+                alt="Patra.io Logo" 
+                className="w-7 h-7 object-contain bg-white rounded-lg p-0.5" 
+              />
               <span className="font-semibold text-lg tracking-tight" style={{ color: "#FFFFFF" }}>
                 patra.io
               </span>

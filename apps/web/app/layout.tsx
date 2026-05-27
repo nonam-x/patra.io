@@ -39,8 +39,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full w-full bg-background overscroll-none">
-      <body className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} h-full w-full bg-background text-foreground antialiased overscroll-none`}>
+    <html lang="en" className="overscroll-x-none">
+      <body className={`${inter.variable} ${geistSans.variable} ${geistMono.variable}overflow-x-hidden `}>
         <ErrorBoundary>
           <GlobalProviders>{children}</GlobalProviders>
         </ErrorBoundary>

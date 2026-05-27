@@ -8,28 +8,50 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 border-b backdrop-blur-xl transition-all duration-300"
+    <nav className="sticky top-0 z-50 border-b backdrop-blur-md transition-all duration-300"
       style={{
-        borderColor: "var(--color-landing-border-subtle)",
-        backgroundColor: "rgba(238, 234, 227, 0.85)",
+        borderColor: "rgba(221, 217, 209, 0.35)",
+        backgroundColor: "rgba(238, 234, 227, 0.5)",
       }}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between"
         style={{ fontFamily: "var(--font-inter)" }}
       >
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center transition-transform duration-200 group-hover:scale-105"
-            style={{ backgroundColor: "var(--color-landing-accent)" }}
-          >
-            <span className="font-bold text-xs tracking-tight text-white">P</span>
-          </div>
-          <span className="font-semibold text-lg tracking-tight"
+        {/* Logo
+        <Link href="/" className="flex items-center gap-0 group">
+          <img 
+            src="/logos/patra.io-logo.png" 
+            alt="Patra.io Logo" 
+            className="w-7 h-7 object-contain bg-background rounded-lg py-0.5 transition-transform duration-200 group-hover:scale-105" 
+          />
+          <span className=" -ml-1 font-semibold text-lg tracking-tight pt-1 pb-1.5 "
             style={{ color: "var(--color-landing-text)" }}
           >
-            patra<span style={{ color: "var(--color-landing-accent)" }}>.io</span>
+            atra<span style={{ color: "var(--color-landing-accent)" }}>.io</span>
           </span>
-        </Link>
+        </Link> */}
+
+        <Link href="/" className="flex items-center group">
+  <div className="flex items-center gap-0 transition-transform duration-200 group-hover:scale-105">
+    
+    <img 
+      src="/logos/patra.io-logo.png" 
+      alt="Patra.io Logo" 
+      className="w-7 h-7 object-contain bg-background rounded-lg py-0.5" 
+    />
+
+    <span
+      className="-ml-1 font-semibold text-lg tracking-tight pt-1 pb-1.5"
+      style={{ color: "var(--color-landing-text)" }}
+    >
+      atra
+      <span style={{ color: "var(--color-landing-accent)" }}>
+        .io
+      </span>
+    </span>
+
+  </div>
+</Link>
 
         {/* Desktop Nav Links */}
         <div className="hidden md:flex items-center gap-8 text-sm font-medium"
@@ -53,10 +75,10 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-3">
           <Link href="/login">
             <button
-              className="text-sm font-medium px-4 py-2 rounded-lg transition-colors duration-200"
+              className="text-xs font-semibold px-4.5 py-2 rounded-full transition-colors duration-200"
               style={{ color: "var(--color-landing-text-secondary)" }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = "var(--color-landing-elevated)";
+                e.currentTarget.style.backgroundColor = "rgba(60, 64, 43, 0.05)";
                 e.currentTarget.style.color = "var(--color-landing-text)";
               }}
               onMouseLeave={(e) => {
@@ -69,7 +91,7 @@ export default function Navbar() {
           </Link>
           <Link href="/signup">
             <button
-              className="text-sm font-semibold px-5 py-2.5 rounded-lg transition-all duration-200 active:scale-[0.98] flex items-center gap-2"
+              className="text-xs font-bold px-5 py-2 rounded-full transition-all duration-200 active:scale-[0.98] flex items-center gap-1.5"
               style={{
                 backgroundColor: "var(--color-landing-accent)",
                 color: "#FFFFFF",
@@ -78,7 +100,7 @@ export default function Navbar() {
               onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "var(--color-landing-accent)")}
             >
               Start Free
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </button>
           </Link>
         </div>
@@ -127,14 +149,14 @@ export default function Navbar() {
               ))}
               <div className="pt-3 flex flex-col gap-3" style={{ borderTop: "1px solid var(--color-landing-border-subtle)" }}>
                 <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                  <button className="w-full text-sm font-medium py-2.5 rounded-lg"
+                  <button className="w-full text-xs font-semibold py-2 rounded-full border border-border/40"
                     style={{ color: "var(--color-landing-text-secondary)" }}
                   >
                     Log in
                   </button>
                 </Link>
                 <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>
-                  <button className="w-full text-sm font-semibold py-2.5 rounded-lg"
+                  <button className="w-full text-xs font-bold py-2 rounded-full"
                     style={{ backgroundColor: "var(--color-landing-accent)", color: "#FFFFFF" }}
                   >
                     Start Free

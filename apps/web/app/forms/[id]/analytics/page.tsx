@@ -36,9 +36,9 @@ export default function AnalyticsPage() {
 
   if (authLoading || formLoading || analyticsLoading || subsLoading || !form || !analytics) {
     return (
-      <div className="min-h-screen bg-[#09090B] flex items-center justify-center">
-        <div className="text-[#A1A1AA] text-xs animate-pulse font-mono uppercase tracking-wider">
-          compiling analytics dashboard...
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-muted-foreground text-xs animate-pulse font-medium">
+          Loading analytics...
         </div>
       </div>
     );
@@ -48,32 +48,32 @@ export default function AnalyticsPage() {
   const submissions = (submissionsData?.submissions || []) as any[];
 
   return (
-    <div className="h-screen bg-[#09090B] text-[#FAFAFA] flex flex-col font-sans select-none overflow-hidden relative">
+    <div className="h-screen bg-background text-foreground flex flex-col font-sans select-none overflow-hidden relative">
       {/* Header */}
-      <header className="h-14 px-6 border-b border-[#27272A] bg-[#111111] flex items-center justify-between flex-shrink-0 z-30">
-        <div className="flex items-center gap-4">
+      <header className="h-12 px-3 sm:px-4 border-b border-border bg-card/80 backdrop-blur-md flex items-center justify-between flex-shrink-0 z-30">
+        <div className="flex items-center gap-2 sm:gap-3">
           <Link
             href="/dashboard"
-            className="text-[#A1A1AA] hover:text-white p-1.5 hover:bg-[#18181B] rounded-lg transition-colors"
+            className="text-muted-foreground hover:text-foreground p-1 sm:p-1.5 hover:bg-secondary rounded-lg transition-all duration-200"
           >
-            <ArrowLeft size={16} />
+            <ArrowLeft size={15} />
           </Link>
-          <span className="font-bold text-sm text-white truncate max-w-[80px] sm:max-w-[200px]" title={form.title}>
+          <span className="font-semibold text-xs sm:text-sm text-foreground truncate max-w-[70px] min-[370px]:max-w-[110px] sm:max-w-[200px]" title={form.title}>
             {form.title}
           </span>
         </div>
 
         {/* View Selection Tabs */}
-        <div className="flex items-center gap-1 text-xs font-semibold bg-[#18181B] p-1 rounded-lg border border-[#27272A]">
+        <div className="flex items-center gap-0.5 text-[10px] sm:text-xs font-medium bg-secondary/80 p-0.5 sm:p-1 rounded-lg sm:rounded-xl border border-border/60">
           <Link
             href={`/forms/${id}/builder`}
-            className="px-3.5 py-1.5 rounded-md hover:bg-[#111111]/50 text-[#A1A1AA] hover:text-white transition-colors"
+            className="px-2 py-1 sm:px-3.5 sm:py-1.5 rounded-md sm:rounded-lg text-muted-foreground hover:text-foreground hover:bg-card/50 transition-all duration-200"
           >
             Builder
           </Link>
           <Link
             href={`/forms/${id}/analytics`}
-            className="px-3.5 py-1.5 rounded-md bg-[#111111] text-white shadow-sm"
+            className="px-2 py-1 sm:px-3.5 sm:py-1.5 rounded-md sm:rounded-lg bg-card text-foreground shadow-sm border border-border/40 transition-all duration-200"
           >
             Analytics
           </Link>
@@ -89,7 +89,7 @@ export default function AnalyticsPage() {
       </header>
 
       {/* Main Grid View */}
-      <div className="flex-1 overflow-y-auto bg-[#09090B] p-6 md:p-8">
+      <div className="flex-1 overflow-y-auto bg-background p-4 sm:p-6 md:p-8 scrollbar-hide">
         <div className="max-w-4xl mx-auto space-y-8 pb-12">
           {/* Key Metrics Widgets */}
           <StatsCards

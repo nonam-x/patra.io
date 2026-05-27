@@ -12,7 +12,8 @@ interface Answer {
 
 interface Submission {
   id: string;
-  submittedAt: string;
+  submittedAt?: string;
+  completedAt?: string | null | Date | any;
   answers: Answer[];
 }
 
@@ -40,9 +41,11 @@ export function CSVExportButton({ submissions, fields, formTitle }: CSVExportBut
 
     // Build data rows
     submissions.forEach((sub) => {
+      const dateValue = sub.completedAt || sub.submittedAt;
+      const safeDateStr = dateValue ? new Date(dateValue).toISOString() : new Date().toISOString();
       const rowData = [
         sub.id,
-        new Date(sub.submittedAt).toISOString(),
+        safeDateStr,
         ...fields.map((f) => {
           const ans = sub.answers?.find((a) => a.fieldId === f.id);
           const valStr = ans?.value ? ans.value.toString().replace(/"/g, '""') : "";
@@ -70,9 +73,9 @@ export function CSVExportButton({ submissions, fields, formTitle }: CSVExportBut
     <Button
       onClick={handleExportCSV}
       disabled={submissions.length === 0}
-      className="bg-white hover:bg-white/90 text-black text-xs font-bold px-2.5 sm:px-4 h-9 rounded-lg flex items-center gap-1.5 transition-all shadow-[0_4px_15px_rgba(255,255,255,0.15)] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+      className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs font-semibold w-8 h-8 sm:w-auto sm:px-4 sm:h-8.5 rounded-lg sm:rounded-xl flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed shadow-sm p-0 sm:p-auto"
     >
-      <Download size={13} />
+      <Download size={13} className="shrink-0" />
       <span className="hidden sm:inline">Export CSV</span>
     </Button>
   );

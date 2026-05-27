@@ -12,7 +12,7 @@ interface HeaderProps {
 
 export function Header({ title, breadcrumbs, children }: HeaderProps) {
   return (
-    <header className="h-14 px-6 border-b border-border bg-background flex items-center justify-between flex-shrink-0 z-10">
+    <header className="h-12 px-6 border-b border-border bg-background flex items-center justify-between flex-shrink-0 z-10">
       <div className="flex flex-col justify-center">
         {breadcrumbs && breadcrumbs.length > 0 ? (
           <div className="flex items-center gap-1 text-[11px] text-muted-foreground mb-0.5 font-mono">

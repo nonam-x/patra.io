@@ -32,7 +32,7 @@ interface GeneratedField {
 
 function getAiFieldsFromPrompt(prompt: string, title: string): GeneratedField[] {
   const p = prompt.toLowerCase();
-  
+
   if (p.includes("feedback") || p.includes("survey") || p.includes("satisfaction") || p.includes("review") || p.includes("nps")) {
     return [
       {
@@ -224,7 +224,7 @@ export function CreateFormDialog({
 
       // Get generated fields
       const fieldsToCreate = getAiFieldsFromPrompt(aiPrompt, generatedTitle);
-      
+
       // Create fields sequentially
       for (let i = 0; i < fieldsToCreate.length; i++) {
         const f = fieldsToCreate[i]!;
@@ -252,7 +252,7 @@ export function CreateFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[480px] bg-card border-border text-foreground p-0 overflow-hidden shadow-2xl">
+      <DialogContent className="sm:max-w-[480px] bg-card border-border text-foreground p-0 overflow-hidden shadow-2xl rounded-2xl">
         <DialogHeader className="p-6 pb-0">
           <DialogTitle className="text-base font-bold tracking-tight text-foreground">
             Create Form
@@ -261,36 +261,36 @@ export function CreateFormDialog({
             Choose a starting point for your next conversational form.
           </DialogDescription>
         </DialogHeader>
- 
+
         <Tabs
           defaultValue="blank"
           className="w-full mt-4"
           onValueChange={(val) => setActiveTab(val as "blank" | "ai")}
         >
           <div className="px-6">
-            <TabsList className="grid w-full grid-cols-2 bg-muted border border-border">
+            <TabsList className="grid w-full grid-cols-2 bg-secondary/60 p-1 border border-border/50 rounded-xl">
               <TabsTrigger
                 value="blank"
-                className="text-xs font-semibold data-[state=active]:bg-card data-[state=active]:text-foreground text-muted-foreground"
+                className="text-xs font-semibold data-[state=active]:bg-card data-[state=active]:text-foreground text-muted-foreground rounded-lg transition-all duration-200 cursor-pointer"
               >
                 <Plus size={13} className="mr-1.5" />
                 Start Blank
               </TabsTrigger>
               <TabsTrigger
                 value="ai"
-                className="text-xs font-semibold data-[state=active]:bg-card data-[state=active]:text-foreground text-muted-foreground"
+                className="text-xs font-semibold data-[state=active]:bg-card data-[state=active]:text-foreground text-muted-foreground rounded-lg transition-all duration-200 cursor-pointer"
               >
                 <Sparkles size={13} className="mr-1.5 text-primary" />
                 AI Assistant
               </TabsTrigger>
             </TabsList>
           </div>
- 
+
           <div className="p-6">
             <TabsContent value="blank" className="mt-0 outline-none">
               <form onSubmit={handleCreateBlank} className="space-y-4">
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider font-mono">
+                  <label className="text-xs font-semibold text-muted-foreground/80">
                     Form Title
                   </label>
                   <Input
@@ -298,36 +298,36 @@ export function CreateFormDialog({
                     placeholder="e.g. Customer Feedback Survey"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="bg-background border-border focus-visible:ring-primary text-xs text-foreground placeholder:text-muted-foreground/60"
+                    className="bg-background border-border focus-visible:ring-primary text-xs text-foreground placeholder:text-muted-foreground/60 rounded-xl h-9.5"
                     disabled={isSubmitting}
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider font-mono">
+                  <label className="text-xs font-semibold text-muted-foreground/80">
                     Description (optional)
                   </label>
                   <Textarea
                     placeholder="Briefly describe what this form is about..."
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    className="bg-background border-border focus-visible:ring-primary text-xs text-foreground placeholder:text-muted-foreground/60 min-h-[80px]"
+                    className="bg-background border-border focus-visible:ring-primary text-xs text-foreground placeholder:text-muted-foreground/60 min-h-[80px] rounded-xl"
                     disabled={isSubmitting}
                   />
                 </div>
- 
+
                 <div className="flex justify-end gap-3 pt-2">
                   <Button
                     type="button"
                     variant="ghost"
                     onClick={() => onOpenChange(false)}
-                    className="text-muted-foreground hover:bg-muted text-xs"
+                    className="text-muted-foreground hover:bg-secondary text-xs h-8.5 rounded-xl transition-all duration-200 cursor-pointer"
                     disabled={isSubmitting}
                   >
                     Cancel
                   </Button>
                   <Button
                     type="submit"
-                    className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs px-4"
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs px-4 h-8.5 rounded-xl transition-all duration-200 cursor-pointer"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (
@@ -338,11 +338,11 @@ export function CreateFormDialog({
                 </div>
               </form>
             </TabsContent>
- 
+
             <TabsContent value="ai" className="mt-0 outline-none">
               <form onSubmit={handleCreateAi} className="space-y-4">
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider font-mono">
+                  <label className="text-xs font-semibold text-muted-foreground/80">
                     What is the goal of your form?
                   </label>
                   <Textarea
@@ -351,24 +351,24 @@ export function CreateFormDialog({
                     value={aiPrompt}
                     onChange={(e) => setAiPrompt(e.target.value)}
                     placeholder="e.g. A developer satisfaction survey asking about tech stacks, build tools, and local setup satisfaction rating."
-                    className="bg-background border-border focus-visible:ring-primary text-xs text-foreground placeholder:text-muted-foreground/60 resize-none min-h-[100px]"
+                    className="bg-background border-border focus-visible:ring-primary text-xs text-foreground placeholder:text-muted-foreground/60 resize-none min-h-[100px] rounded-xl"
                     disabled={isSubmitting}
                   />
                 </div>
- 
+
                 <div className="flex justify-end gap-3 pt-2">
                   <Button
                     type="button"
                     variant="ghost"
                     onClick={() => onOpenChange(false)}
-                    className="text-muted-foreground hover:bg-muted text-xs"
+                    className="text-muted-foreground hover:bg-secondary text-xs h-8.5 rounded-xl transition-all duration-200 cursor-pointer"
                     disabled={isSubmitting}
                   >
                     Cancel
                   </Button>
                   <Button
                     type="submit"
-                    className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs px-4"
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs px-4 h-8.5 rounded-xl transition-all duration-200 cursor-pointer"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (

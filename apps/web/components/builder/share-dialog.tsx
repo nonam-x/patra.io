@@ -46,7 +46,7 @@ export function ShareDialog({
   };
 
   const getEmbedCode = () => {
-    return `<iframe src="${shareUrl}" width="100%" height="600px" style="border:none;border-radius:12px;background:#09090B;"></iframe>`;
+    return `<iframe src="${shareUrl}" width="100%" height="600px" style="border:none;border-radius:12px;"></iframe>`;
   };
 
   const handleCopyEmbed = () => {
@@ -58,69 +58,58 @@ export function ShareDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[440px] bg-[#111111] border-[#27272A] text-white p-6 shadow-2xl">
+      <DialogContent className="sm:max-w-[440px] bg-card border-border text-foreground p-6 shadow-xl rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="text-base font-bold tracking-tight">Share Form</DialogTitle>
-          <DialogDescription className="text-xs text-[#A1A1AA]">
-            Publish your form to share it with your audience.
+          <DialogTitle className="text-base font-semibold tracking-tight">Share Form</DialogTitle>
+          <DialogDescription className="text-xs text-muted-foreground">
+            Distribute your form to your audience.
           </DialogDescription>
         </DialogHeader>
 
         {!isPublished ? (
-          <div className="text-xs text-amber-400 bg-amber-950/20 border border-amber-500/20 p-3.5 rounded-lg font-medium leading-relaxed my-2">
-            ⚠️ This form is currently a draft. Please publish the form first using the &quot;Publish&quot; button in the header to allow people to fill it out.
+          <div className="text-xs text-amber-700 bg-amber-50 border border-amber-200/50 p-3.5 rounded-xl font-medium leading-relaxed my-2">
+            ⚠️ This form is a draft. Publish it first to allow responses.
           </div>
         ) : (
           <div className="space-y-4 pt-3">
-            {/* Inner tabs */}
-            <div className="flex border-b border-[#27272A] gap-4 text-xs font-mono pb-2">
-              <button
-                onClick={() => setActiveTab("link")}
-                className={`pb-1 font-semibold transition-colors relative ${
-                  activeTab === "link" ? "text-white" : "text-[#A1A1AA] hover:text-white"
-                }`}
-              >
-                Link
-              </button>
-              <button
-                onClick={() => setActiveTab("qr")}
-                className={`pb-1 font-semibold transition-colors relative ${
-                  activeTab === "qr" ? "text-white" : "text-[#A1A1AA] hover:text-white"
-                }`}
-              >
-                QR Code
-              </button>
-              <button
-                onClick={() => setActiveTab("embed")}
-                className={`pb-1 font-semibold transition-colors relative ${
-                  activeTab === "embed" ? "text-white" : "text-[#A1A1AA] hover:text-white"
-                }`}
-              >
-                Embed
-              </button>
+            {/* Tabs */}
+            <div className="flex bg-secondary/60 p-0.5 rounded-xl border border-border/40 gap-0.5">
+              {(["link", "qr", "embed"] as const).map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`flex-1 py-1.5 text-xs font-medium rounded-lg transition-all duration-200 capitalize ${
+                    activeTab === tab
+                      ? "bg-card text-foreground shadow-sm border border-border/40"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {tab === "qr" ? "QR Code" : tab === "embed" ? "Embed" : "Link"}
+                </button>
+              ))}
             </div>
 
             {/* TAB: LINK */}
             {activeTab === "link" && (
               <div className="space-y-3">
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-[#A1A1AA] uppercase tracking-wider font-mono">
+                  <label className="text-[10px] font-medium text-muted-foreground">
                     Public URL
                   </label>
                   <div className="flex gap-2">
                     <Input
                       readOnly
                       value={shareUrl}
-                      className="bg-[#18181B] border-[#27272A] text-xs font-mono select-all text-zinc-300 h-9"
+                      className="bg-secondary/50 border-border text-xs font-mono select-all text-foreground h-9 rounded-lg"
                     />
-                    <Button onClick={handleCopyLink} size="icon" className="h-9 w-9 bg-white text-black shrink-0 hover:bg-white/90">
+                    <Button onClick={handleCopyLink} size="icon" className="h-9 w-9 bg-primary text-primary-foreground shrink-0 hover:bg-primary/90 rounded-lg">
                       {copiedLink ? <Check size={14} /> : <Copy size={14} />}
                     </Button>
                   </div>
                 </div>
 
-                <a href={shareUrl} target="_blank" rel="noopener noreferrer" className="block pt-2">
-                  <Button variant="outline" className="w-full border-[#27272A] hover:bg-[#18181B] text-xs text-white h-9 flex items-center justify-center gap-1.5 font-medium">
+                <a href={shareUrl} target="_blank" rel="noopener noreferrer" className="block pt-1">
+                  <Button variant="outline" className="w-full border-border hover:bg-secondary text-xs text-foreground h-9 flex items-center justify-center gap-1.5 font-medium rounded-lg transition-all duration-200">
                     Open Live Form <ExternalLink size={13} />
                   </Button>
                 </a>
@@ -129,12 +118,12 @@ export function ShareDialog({
 
             {/* TAB: QR CODE */}
             {activeTab === "qr" && (
-              <div className="flex flex-col items-center justify-center py-4 space-y-4">
-                <div className="p-3 bg-white rounded-xl shadow-lg border border-[#27272A]">
+              <div className="flex flex-col items-center justify-center py-6 space-y-4">
+                <div className="p-4 bg-white rounded-2xl shadow-sm border border-border">
                   <QRCodeSVG value={shareUrl} size={150} level="M" />
                 </div>
-                <p className="text-[10px] text-[#A1A1AA] font-mono text-center max-w-[250px]">
-                  Download or scan this QR code to quickly open the conversational form on mobile devices.
+                <p className="text-[10px] text-muted-foreground text-center max-w-[220px] leading-relaxed">
+                  Scan this QR code to open the form on mobile.
                 </p>
               </div>
             )}
@@ -143,20 +132,19 @@ export function ShareDialog({
             {activeTab === "embed" && (
               <div className="space-y-3">
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-[#A1A1AA] uppercase tracking-wider font-mono">
-                    IFrame Embed Snippet
+                  <label className="text-[10px] font-medium text-muted-foreground">
+                    Embed Code
                   </label>
                   <div className="relative">
                     <textarea
                       readOnly
                       value={getEmbedCode()}
-                      className="w-full bg-[#18181B] border border-[#27272A] text-[10px] font-mono p-3 rounded-lg text-zinc-300 min-h-[80px] resize-none focus:outline-none"
+                      className="w-full bg-secondary/50 border border-border text-[10px] font-mono p-3 rounded-xl text-foreground min-h-[80px] resize-none focus:outline-none"
                     />
                     <Button
                       onClick={handleCopyEmbed}
                       size="icon"
-                      className="absolute right-2.5 bottom-2.5 h-7 w-7 bg-white text-black hover:bg-white/90"
-                      title="Copy embed snippet"
+                      className="absolute right-2.5 bottom-2.5 h-7 w-7 bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg"
                     >
                       {copiedEmbed ? <Check size={12} /> : <Copy size={12} />}
                     </Button>

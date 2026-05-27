@@ -30,17 +30,17 @@ interface AddFieldMenuProps {
 }
 
 export const fieldTypesList = [
-  { type: "welcome", label: "Welcome Screen", category: "Structure", icon: Heart, color: "text-[#EC4899]" },
-  { type: "thank_you", label: "Thank You Screen", category: "Structure", icon: Check, color: "text-[#22D3EE]" },
-  { type: "short_text", label: "Short Text", category: "Input", icon: Type, color: "text-[#8B5CF6]" },
-  { type: "long_text", label: "Long Text", category: "Input", icon: AlignLeft, color: "text-[#8B5CF6]" },
-  { type: "email", label: "Email Address", category: "Input", icon: Mail, color: "text-[#8B5CF6]" },
-  { type: "number", label: "Number Input", category: "Input", icon: Binary, color: "text-[#8B5CF6]" },
-  { type: "multiple_choice", label: "Multiple Choice", category: "Selection", icon: List, color: "text-[#3B82F6]" },
-  { type: "checkbox", label: "Checkboxes", category: "Selection", icon: CheckSquare, color: "text-[#3B82F6]" },
-  { type: "dropdown", label: "Dropdown Select", category: "Selection", icon: ChevronDown, color: "text-[#3B82F6]" },
-  { type: "rating", label: "Star Rating", category: "Feedback", icon: Star, color: "text-amber-400" },
-  { type: "date", label: "Date Picker", category: "Feedback", icon: Calendar, color: "text-[#EC4899]" },
+  { type: "welcome", label: "Welcome Screen", category: "Structure", icon: Heart, color: "text-muted-foreground" },
+  { type: "thank_you", label: "Thank You Screen", category: "Structure", icon: Check, color: "text-muted-foreground" },
+  { type: "short_text", label: "Short Text", category: "Input", icon: Type, color: "text-muted-foreground" },
+  { type: "long_text", label: "Long Text", category: "Input", icon: AlignLeft, color: "text-muted-foreground" },
+  { type: "email", label: "Email Address", category: "Input", icon: Mail, color: "text-muted-foreground" },
+  { type: "number", label: "Number Input", category: "Input", icon: Binary, color: "text-muted-foreground" },
+  { type: "multiple_choice", label: "Multiple Choice", category: "Selection", icon: List, color: "text-muted-foreground" },
+  { type: "checkbox", label: "Checkboxes", category: "Selection", icon: CheckSquare, color: "text-muted-foreground" },
+  { type: "dropdown", label: "Dropdown Select", category: "Selection", icon: ChevronDown, color: "text-muted-foreground" },
+  { type: "rating", label: "Star Rating", category: "Feedback", icon: Star, color: "text-muted-foreground" },
+  { type: "date", label: "Date Picker", category: "Feedback", icon: Calendar, color: "text-muted-foreground" },
 ];
 
 export function AddFieldMenu({ onAddField }: AddFieldMenuProps) {
@@ -50,15 +50,15 @@ export function AddFieldMenu({ onAddField }: AddFieldMenuProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="text-[#A1A1AA] hover:text-white p-1.5 hover:bg-[#18181B] rounded transition-colors flex items-center justify-center">
+        <button className="text-muted-foreground hover:text-foreground p-1.5 hover:bg-secondary rounded-lg transition-all duration-200 flex items-center justify-center">
           <Plus size={14} />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="bg-[#111111] border-[#27272A] text-white w-52 text-xs p-1 shadow-2xl">
+      <DropdownMenuContent className="bg-card border-border text-foreground w-56 text-xs p-1.5 shadow-xl rounded-xl">
         {categories.map((category, catIdx) => (
           <React.Fragment key={category}>
-            {catIdx > 0 && <DropdownMenuSeparator className="bg-[#27272A]" />}
-            <DropdownMenuLabel className="text-[10px] text-[#71717A] uppercase font-mono font-bold px-2.5 py-1.5">
+            {catIdx > 0 && <DropdownMenuSeparator className="bg-border/50 my-1" />}
+            <DropdownMenuLabel className="text-[10px] text-muted-foreground/70 font-medium px-2.5 py-1.5">
               {category}
             </DropdownMenuLabel>
             {fieldTypesList
@@ -69,10 +69,10 @@ export function AddFieldMenu({ onAddField }: AddFieldMenuProps) {
                   <DropdownMenuItem
                     key={item.type}
                     onClick={() => onAddField(item.type)}
-                    className="hover:bg-[#18181B] cursor-pointer flex items-center gap-2.5 py-2 px-2.5 rounded-lg text-xs"
+                    className="hover:bg-secondary cursor-pointer flex items-center gap-2.5 py-2.5 px-2.5 rounded-lg text-xs transition-all duration-200"
                   >
-                    <Icon size={12} className={item.color} />
-                    <span>{item.label}</span>
+                    <Icon size={14} className="text-muted-foreground/60" />
+                    <span className="font-medium">{item.label}</span>
                   </DropdownMenuItem>
                 );
               })}

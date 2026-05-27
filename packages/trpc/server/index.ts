@@ -8,6 +8,7 @@ import { submissionRouter } from "./routes/submission/route";
 import { analyticsRouter } from "./routes/analytics/route";
 import { themeRouter } from "./routes/theme/route";
 import { exploreRouter } from "./routes/explore/route";
+import { emailRouter } from "./routes/email/route";
 
 export const serverRouter = router({
   health: healthRouter,
@@ -18,7 +19,9 @@ export const serverRouter = router({
   analytics: analyticsRouter,
   theme: themeRouter,
   explore: exploreRouter,
+  email: emailRouter,
 });
 
 export { createContext } from "./context";
 export type ServerRouter = typeof serverRouter;
+

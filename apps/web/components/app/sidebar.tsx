@@ -25,9 +25,10 @@ const navItems = [
 
 interface SidebarProps {
   onOpenCommandPalette?: () => void;
+  onClose?: () => void;
 }
 
-export function Sidebar({ onOpenCommandPalette }: SidebarProps) {
+export function Sidebar({ onOpenCommandPalette, onClose }: SidebarProps) {
   const pathname = usePathname();
   const { user, logout } = useAuth();
 
@@ -41,9 +42,11 @@ export function Sidebar({ onOpenCommandPalette }: SidebarProps) {
       <div>
         {/* Logo / Workspace */}
         <div className="h-14 px-5 border-b border-sidebar-border flex items-center gap-3">
-          <div className="w-7 h-7 rounded-lg bg-sidebar-primary flex items-center justify-center">
-            <span className="font-bold text-[11px] tracking-tight text-sidebar-primary-foreground">P</span>
-          </div>
+          <img 
+            src="/logos/patra.io-logo.png" 
+            alt="Patra.io Logo" 
+            className="w-7 h-7 object-contain bg-white rounded-lg p-0.5" 
+          />
           <div>
             <span className="font-semibold text-sm block text-sidebar-foreground leading-tight">Patra</span>
             <span className="text-[9px] text-sidebar-primary font-mono uppercase font-bold tracking-wider">
@@ -61,7 +64,8 @@ export function Sidebar({ onOpenCommandPalette }: SidebarProps) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] font-medium transition-all ${
+                onClick={onClose}
+                className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13px] font-medium transition-all duration-200 ${
                   active
                     ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold"
                     : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground"
@@ -75,14 +79,17 @@ export function Sidebar({ onOpenCommandPalette }: SidebarProps) {
  
           {/* Command palette trigger */}
           <button
-            onClick={onOpenCommandPalette}
-            className="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-sidebar-accent/50 text-sidebar-foreground/70 hover:text-sidebar-accent-foreground text-[13px] font-medium transition-all text-left mt-2"
+            onClick={() => {
+              onOpenCommandPalette?.();
+              onClose?.();
+            }}
+            className="w-full flex items-center justify-between px-3 py-2 rounded-xl hover:bg-sidebar-accent/50 text-sidebar-foreground/70 hover:text-sidebar-accent-foreground text-[13px] font-medium transition-all duration-200 text-left mt-2 cursor-pointer"
           >
             <div className="flex items-center gap-2.5">
               <Search size={15} />
               <span>Search</span>
             </div>
-            <kbd className="text-[9px] bg-sidebar-accent px-1.5 py-0.5 rounded border border-sidebar-border font-mono text-sidebar-foreground/40">
+            <kbd className="text-[9px] bg-sidebar-accent px-1.5 py-0.5 rounded-md border border-sidebar-border font-mono text-sidebar-foreground/40">
               ⌘K
             </kbd>
           </button>
@@ -101,8 +108,11 @@ export function Sidebar({ onOpenCommandPalette }: SidebarProps) {
           </div>
         </div>
         <button
-          onClick={logout}
-          className="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg hover:bg-red-950/20 text-sidebar-foreground/70 hover:text-red-400 text-[13px] font-medium transition-all text-left"
+          onClick={() => {
+            logout();
+            onClose?.();
+          }}
+          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-red-50 text-sidebar-foreground/70 hover:text-red-500 text-[13px] font-medium transition-all duration-200 text-left cursor-pointer"
         >
           <LogOut size={14} />
           <span>Sign Out</span>
