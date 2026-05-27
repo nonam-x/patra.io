@@ -2,36 +2,13 @@ import { CreateThemeInputType, UpdateThemeInputType } from "./model";
 import { db, eq, or } from "@repo/database";
 import { themesTable } from "@repo/database/schema";
 
-export const DHURANDHAR_THEME_ID = "d40b0000-0000-0000-0000-000000000001";
-
-export const DHURANDHAR_THEME = {
-  id: DHURANDHAR_THEME_ID,
-  name: "Dhurandhar (Tactical)",
-  colors: {
-    background: "#0f0f0f",
-    card: "#171717",
-    primary: "#c49b63",
-    secondary: "#171717",
-    text: "#f5f1e8",
-    accent: "#8b1e1e",
-    muted: "#7d7d7d",
-  },
-  fontFamily: "IBM Plex Mono",
-  borderRadius: "0px",
-  isSystem: true,
-  creatorId: null,
-  createdAt: new Date("2026-05-21T00:00:00.000Z"),
-  updatedAt: new Date("2026-05-21T00:00:00.000Z"),
-};
-
 class ThemeService {
   // ─── List ────────────────────────────────────────────
 
   public async listThemes(creatorId?: string) {
-    let dbThemes: any[] = [];
     if (creatorId) {
       // Return system themes + user's custom themes
-      dbThemes = await db
+      return db
         .select()
         .from(themesTable)
         .where(
@@ -41,30 +18,19 @@ class ThemeService {
           ),
         )
         .orderBy(themesTable.name);
-    } else {
-      // Public: system themes only
-      dbThemes = await db
-        .select()
-        .from(themesTable)
-        .where(eq(themesTable.isSystem, true))
-        .orderBy(themesTable.name);
     }
 
-    const hasDhurandhar = dbThemes.some(
-      (t) => t.id === DHURANDHAR_THEME_ID || t.name === "Dhurandhar (Tactical)"
-    );
-    if (!hasDhurandhar) {
-      return [DHURANDHAR_THEME, ...dbThemes];
-    }
-    return dbThemes;
+    // Public: system themes only
+    return db
+      .select()
+      .from(themesTable)
+      .where(eq(themesTable.isSystem, true))
+      .orderBy(themesTable.name);
   }
 
   // ─── Get by ID ───────────────────────────────────────
 
   public async getThemeById(themeId: string) {
-    if (themeId === DHURANDHAR_THEME_ID) {
-      return DHURANDHAR_THEME;
-    }
     const [theme] = await db
       .select()
       .from(themesTable)
@@ -136,4 +102,3 @@ class ThemeService {
 }
 
 export default ThemeService;
-

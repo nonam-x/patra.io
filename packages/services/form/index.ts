@@ -11,7 +11,6 @@ import {
   submissionsTable,
 } from "@repo/database/schema";
 import { randomBytes } from "node:crypto";
-import { DHURANDHAR_THEME, DHURANDHAR_THEME_ID } from "../theme";
 
 class FormService {
   private generateSlug(title: string): string {
@@ -62,15 +61,11 @@ class FormService {
 
     let theme = null;
     if (form.themeId) {
-      if (form.themeId === DHURANDHAR_THEME_ID) {
-        theme = DHURANDHAR_THEME;
-      } else {
-        const [t] = await db
-          .select()
-          .from(themesTable)
-          .where(eq(themesTable.id, form.themeId));
-        theme = t ?? null;
-      }
+      const [t] = await db
+        .select()
+        .from(themesTable)
+        .where(eq(themesTable.id, form.themeId));
+      theme = t ?? null;
     }
 
     return { ...form, fields, theme };
@@ -92,15 +87,11 @@ class FormService {
 
     let theme = null;
     if (form.themeId) {
-      if (form.themeId === DHURANDHAR_THEME_ID) {
-        theme = DHURANDHAR_THEME;
-      } else {
-        const [t] = await db
-          .select()
-          .from(themesTable)
-          .where(eq(themesTable.id, form.themeId));
-        theme = t ?? null;
-      }
+      const [t] = await db
+        .select()
+        .from(themesTable)
+        .where(eq(themesTable.id, form.themeId));
+      theme = t ?? null;
     }
 
     return { ...form, fields, theme };

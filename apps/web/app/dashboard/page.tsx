@@ -46,7 +46,7 @@ export default function DashboardPage() {
       <Header title="Workspace Forms" breadcrumbs={[{ label: "Patra" }, { label: "Forms" }]}>
         <Button
           onClick={() => setIsCreateOpen(true)}
-          className="bg-white hover:bg-white/90 text-black text-xs font-semibold px-4 h-9 rounded-lg flex items-center gap-1.5 transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)] active:scale-[0.98]"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground text-xs font-semibold px-4 h-8.5 rounded-xl flex items-center gap-1.5 transition-all duration-200 shadow-sm active:scale-[0.98]"
         >
           <Plus size={14} />
           <span>Create Form</span>
@@ -64,12 +64,12 @@ export default function DashboardPage() {
 
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
-          <h2 className="text-sm font-bold text-white tracking-tight font-mono uppercase">
+          <h2 className="text-sm font-bold text-foreground tracking-tight">
             All Forms
           </h2>
           
           <div className="relative w-full sm:w-64">
-            <Search size={14} className="absolute left-3 top-2.5 text-[#71717A]" />
+            <Search size={14} className="absolute left-3 top-2 text-muted-foreground/60" />
             <Input
               type="text"
               placeholder="Search forms..."
@@ -78,15 +78,15 @@ export default function DashboardPage() {
                 setSearch(e.target.value);
                 setPage(1); // Reset page on search
               }}
-              className="pl-9 h-9 bg-[#111111] border-[#27272A] text-xs focus-visible:ring-[#8B5CF6] text-white"
+              className="pl-9 h-8.5 bg-card border-border text-xs focus-visible:ring-primary text-foreground rounded-xl placeholder:text-muted-foreground/60 transition-all duration-200"
             />
           </div>
         </div>
 
         {/* Forms Content */}
         {formsLoading ? (
-          <div className="border border-[#27272A] rounded-xl bg-[#111111] p-12 text-center text-xs text-[#A1A1AA] font-mono animate-pulse">
-            fetching forms...
+          <div className="border border-border rounded-xl bg-card p-12 text-center text-xs text-muted-foreground animate-pulse font-medium">
+            Fetching forms...
           </div>
         ) : !formsData?.forms || formsData.forms.length === 0 ? (
           <EmptyState

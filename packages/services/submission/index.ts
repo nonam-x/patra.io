@@ -8,7 +8,9 @@ import {
   fieldsTable,
   submissionsTable,
   answersTable,
+  usersTable,
 } from "@repo/database/schema";
+import { z } from "zod";
 
 class SubmissionService {
   // ─── Submit Response (Public) ────────────────────────
@@ -53,6 +55,101 @@ class SubmissionService {
       }
     }
 
+    // ─── Dynamic Zod Validation per field ────────────
+    const fieldMap = new Map(fields.map((f) => [f.id, f]));
+    for (const answer of data.answers) {
+      const field = fieldMap.get(answer.fieldId);
+      if (!field || field.type === "welcome" || field.type === "thank_you") continue;
+
+      const value = answer.value;
+
+      // If the field is not required and value is empty, skip validation
+      if (!field.required && (!value || value.trim() === "")) {
+        continue;
+      }
+
+      const validations = (field.validations ?? {}) as Record<string, unknown>;
+
+      try {
+        switch (field.type) {
+          case "email": {
+            z.string().email(`"${field.label}" must be a valid email address`).parse(value);
+            break;
+          }
+          case "number": {
+            const num = Number(value);
+            if (isNaN(num)) throw new Error(`"${field.label}" must be a number`);
+            if (validations.min !== undefined && num < (validations.min as number)) {
+              throw new Error(`"${field.label}" must be at least ${validations.min}`);
+            }
+            if (validations.max !== undefined && num > (validations.max as number)) {
+              throw new Error(`"${field.label}" must be at most ${validations.max}`);
+            }
+            break;
+          }
+          case "short_text":
+          case "long_text": {
+            if (validations.minLength !== undefined && value.length < (validations.minLength as number)) {
+              throw new Error(`"${field.label}" must be at least ${validations.minLength} characters`);
+            }
+            if (validations.maxLength !== undefined && value.length > (validations.maxLength as number)) {
+              throw new Error(`"${field.label}" must be at most ${validations.maxLength} characters`);
+            }
+            if (validations.pattern) {
+              const regex = new RegExp(validations.pattern as string);
+              if (!regex.test(value)) {
+                throw new Error(`"${field.label}" does not match the required format`);
+              }
+            }
+            break;
+          }
+          case "rating": {
+            const rating = Number(value);
+            const maxRating = ((field.properties as any)?.maxRating as number) || 5;
+            if (isNaN(rating) || rating < 1 || rating > maxRating) {
+              throw new Error(`"${field.label}" must be a rating between 1 and ${maxRating}`);
+            }
+            break;
+          }
+          case "multiple_choice":
+          case "dropdown": {
+            const opts = (field.options ?? []) as string[];
+            if (opts.length > 0 && !opts.includes(value)) {
+              throw new Error(`"${field.label}" has an invalid selection`);
+            }
+            break;
+          }
+          case "checkbox": {
+            // Checkbox answers are comma-separated multi-values
+            const opts = (field.options ?? []) as string[];
+            const selected = value.split(",").map((v) => v.trim()).filter(Boolean);
+            if (opts.length > 0) {
+              for (const sel of selected) {
+                if (!opts.includes(sel)) {
+                  throw new Error(`"${field.label}" has an invalid selection: "${sel}"`);
+                }
+              }
+            }
+            break;
+          }
+          case "date": {
+            if (value && isNaN(Date.parse(value))) {
+              throw new Error(`"${field.label}" must be a valid date`);
+            }
+            break;
+          }
+        }
+      } catch (err: any) {
+        let msg = err.message;
+        if (err instanceof z.ZodError) {
+          msg = err.issues[0]?.message || msg;
+        } else if (err && typeof err === "object" && "errors" in err && Array.isArray((err as any).errors) && (err as any).errors[0]?.message) {
+          msg = (err as any).errors[0].message;
+        }
+        throw new Error(msg || `Validation failed for "${field.label}"`);
+      }
+    }
+
     // Check max responses setting
     const settings = (form.settings ?? {}) as Record<string, unknown>;
     if (settings.maxResponses) {
@@ -88,8 +185,60 @@ class SubmissionService {
       );
     }
 
+    // ─── Email Notifications (fire-and-forget) ────────
+    this.triggerEmailNotifications(form, fields, data.answers, submission!.id).catch(() => {
+      // Swallow errors — email is non-critical
+    });
+
     return { submissionId: submission!.id };
   }
+
+  /**
+   * Fire simulated email notifications after a form submission.
+   */
+  private async triggerEmailNotifications(
+    form: any,
+    fields: any[],
+    answers: { fieldId: string; value: string }[],
+    submissionId: string,
+  ) {
+    // Lazy import to avoid circular init
+    const EmailService = (await import("../email")).default;
+    const emailService = new EmailService();
+
+    // 1. Notify the creator
+    await emailService.notifyCreatorOfSubmission(
+      form.id,
+      form.title,
+      submissionId,
+    );
+
+    // 2. Send respondent receipt if an email field was answered
+    const fieldMap = new Map(fields.map((f: any) => [f.id, f]));
+    const emailAnswers = answers.filter((a) => {
+      const field = fieldMap.get(a.fieldId);
+      return field?.type === "email" && a.value;
+    });
+
+    if (emailAnswers.length > 0) {
+      const respondentEmail = emailAnswers[0]!.value;
+      const answerSummary = answers
+        .map((a) => {
+          const field = fieldMap.get(a.fieldId);
+          if (!field || field.type === "welcome" || field.type === "thank_you") return null;
+          return { label: field.label, value: a.value };
+        })
+        .filter(Boolean) as { label: string; value: string }[];
+
+      await emailService.sendRespondentReceipt(
+        form.id,
+        form.title,
+        respondentEmail,
+        answerSummary,
+      );
+    }
+  }
+
 
   // ─── List Submissions (Protected) ────────────────────
 

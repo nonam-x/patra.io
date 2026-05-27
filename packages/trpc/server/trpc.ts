@@ -8,11 +8,17 @@ export const tRPCContext = initTRPC
   .context<Context>()
   .create({
     errorFormatter({ shape, error }) {
+      const isInternal = error.code === "INTERNAL_SERVER_ERROR";
+      if (isInternal) {
+        console.error("Internal Server Error:", error);
+      }
+      const message = isInternal ? "Internal server error" : error.message;
       return {
         ...shape,
+        message,
         data: {
           ...shape.data,
-          message: error.message,
+          message,
         },
       };
     },
