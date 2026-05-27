@@ -28,7 +28,7 @@ export default function ExplorePreview() {
           <div>
             <h2 className="landing-h2 mb-3">Discover public forms</h2>
             <p className="landing-body max-w-lg">
-              Browse forms shared by the community. Get inspired or contribute your own.
+              Browse form templates shared by the community. Simulated preview data shown.
             </p>
           </div>
           <a

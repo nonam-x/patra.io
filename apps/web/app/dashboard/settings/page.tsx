@@ -115,33 +115,36 @@ export default function SettingsPage() {
           </button>
           <button
             onClick={() => setActiveTab("billing")}
-            className={`pb-3 font-semibold transition-colors relative cursor-pointer shrink-0 ${
+            className={`pb-3 font-semibold transition-colors relative cursor-pointer shrink-0 flex items-center gap-1.5 ${
               activeTab === "billing" ? "text-foreground" : "text-muted-foreground hover:text-foreground"
             }`}
           >
-            Billing & Usage
+            <span>Billing & Usage</span>
+            <span className="px-1.5 py-0.5 bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[9px] rounded-md font-semibold font-mono">DEMO</span>
             {activeTab === "billing" && (
               <div className="absolute bottom-0 left-0 w-full h-[2px] bg-primary" />
             )}
           </button>
           <button
             onClick={() => setActiveTab("api")}
-            className={`pb-3 font-semibold transition-colors relative cursor-pointer shrink-0 ${
+            className={`pb-3 font-semibold transition-colors relative cursor-pointer shrink-0 flex items-center gap-1.5 ${
               activeTab === "api" ? "text-foreground" : "text-muted-foreground hover:text-foreground"
             }`}
           >
-            API Keys & Webhooks
+            <span>API Keys & Webhooks</span>
+            <span className="px-1.5 py-0.5 bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[9px] rounded-md font-semibold font-mono">DEMO</span>
             {activeTab === "api" && (
               <div className="absolute bottom-0 left-0 w-full h-[2px] bg-primary" />
             )}
           </button>
           <button
             onClick={() => setActiveTab("team")}
-            className={`pb-3 font-semibold transition-colors relative cursor-pointer shrink-0 ${
+            className={`pb-3 font-semibold transition-colors relative cursor-pointer shrink-0 flex items-center gap-1.5 ${
               activeTab === "team" ? "text-foreground" : "text-muted-foreground hover:text-foreground"
             }`}
           >
-            Team Members
+            <span>Team Members</span>
+            <span className="px-1.5 py-0.5 bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[9px] rounded-md font-semibold font-mono">DEMO</span>
             {activeTab === "team" && (
               <div className="absolute bottom-0 left-0 w-full h-[2px] bg-primary" />
             )}
@@ -188,6 +191,11 @@ export default function SettingsPage() {
         {/* TAB 2: BILLING & USAGE */}
         {activeTab === "billing" && (
           <div className="space-y-6">
+            <div className="bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 p-3.5 rounded-2xl text-xs flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse flex-shrink-0" />
+              <span>Stripe billing and subscription features are simulated in this preview environment.</span>
+            </div>
+
             <div className="space-y-1">
               <h3 className="text-sm font-semibold text-foreground tracking-tight">Subscription Profile</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">Review your usage limits, invoices, and active tier features.</p>
@@ -248,6 +256,11 @@ export default function SettingsPage() {
         {/* TAB 3: API KEYS & WEBHOOKS */}
         {activeTab === "api" && (
           <div className="space-y-8">
+            <div className="bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 p-3.5 rounded-2xl text-xs flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse flex-shrink-0" />
+              <span>API keys and webhooks are simulated in-memory for this preview and will reset on page reload. Persistence is coming soon.</span>
+            </div>
+
             {/* API Keys */}
             <div className="space-y-4">
               <div className="space-y-1">
@@ -344,6 +357,11 @@ export default function SettingsPage() {
         {/* TAB 4: TEAM MEMBERS */}
         {activeTab === "team" && (
           <div className="space-y-6">
+            <div className="bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 p-3.5 rounded-2xl text-xs flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse flex-shrink-0" />
+              <span>Team member management is simulated in-memory for this preview. Shared workspace collaboration is coming soon.</span>
+            </div>
+
             <div className="space-y-1">
               <h3 className="text-sm font-semibold text-foreground tracking-tight">Collaborators</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">Manage users authorized to access and modify workspace forms.</p>

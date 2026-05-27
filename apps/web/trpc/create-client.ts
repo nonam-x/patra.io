@@ -9,6 +9,8 @@ export const createTRPCHttpBatchClientClient = (opts?: CreateTRPCHttpBatchClient
   return c({
     url: "/api/trpc",
     fetch(url, options) {
+      // TODO (BUG-11): Once secure httpOnly cookies are implemented, token extraction from localStorage
+      // will be obsolete, as the browser will attach the credentials cookie automatically.
       const token = typeof window !== "undefined" ? localStorage.getItem("patra_token") : null;
       const headers = new Headers(options?.headers);
       if (token) {

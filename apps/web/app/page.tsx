@@ -3,7 +3,6 @@
 import React from "react";
 import Navbar from "~/components/landing/navbar";
 import Hero from "~/components/landing/hero";
-import TrustedBy from "~/components/landing/trusted-by";
 import FormPreview from "~/components/landing/form-preview";
 import AnalyticsShowcase from "~/components/landing/analytics-showcase";
 import ThemesSection from "~/components/landing/themes-section";
@@ -24,7 +23,6 @@ export default function LandingPage() {
    
         <Navbar />
         <Hero />
-        <TrustedBy />
         <FormPreview />
         <AnalyticsShowcase />
         <ThemesSection />

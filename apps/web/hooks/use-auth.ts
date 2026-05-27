@@ -13,7 +13,15 @@ export interface User {
   plan: string;
 }
 
-/** Helper: set a lightweight session indicator cookie for Next.js middleware */
+/** 
+ * Helper: set a lightweight session indicator cookie for Next.js middleware.
+ * 
+ * TODO (BUG-11): Migrate to secure, backend-set httpOnly cookies.
+ * Currently, JWT is stored in localStorage and read on client-side fetch.
+ * When the frontend and API server are configured on the same domain (or cross-site cookies
+ * with SameSite=None are enabled), migrate authentication fully to httpOnly cookies
+ * and remove localStorage/client-side session cookie handling.
+ */
 function setSessionCookie(present: boolean) {
   if (typeof document === "undefined") return;
   if (present) {
