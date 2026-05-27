@@ -1,135 +1,228 @@
-# Turborepo starter
+# Patra.io — Forms that feel like conversations 💬
 
-This Turborepo starter is maintained by the Turborepo core team.
+Patra.io is a conversational form builder. It enables creators to build beautiful, highly interactive forms with step-by-step question interfaces, rich customizable themes, robust analytics, and REST API access. Built using a modern monorepo architecture, it offers performance-optimized server-side rendering, sub-second transitions, and real-time submission tracking.
 
-## Using this example
+---
 
-Run the following command:
+## ✨ Features
 
-```sh
-npx create-turbo@latest
-```
+- **Conversational Form Builder**: Create conversational forms with step-by-step slides. Supports form blocks like `welcome`, `short_text`, `long_text`, `multiple_choice`, `checkbox`, `dropdown`, `rating`, `date`, `email`, `number`, `file_upload`, and `thank_you`.
+- **Advanced Theme Designer**: Customize branding colors (primary, secondary, background, text, accent), fonts (Outfit, Inter, Roboto, Share Tech Mono, Space Grotesk, Plus Jakarta Sans), and border radius. Includes 8 beautiful system-provided presets.
+- **Detailed Analytics Dashboard**: Real-time insights including total views, submissions, response rates, feature breakdowns, and full data grids for answers.
+- **REST & tRPC Architecture**: Next.js client interacts over a native tRPC router, while developers get direct access to RESTful API endpoints auto-documented via Swagger.
 
-## What's inside?
+---
 
-This Turborepo includes the following packages/apps:
+## 🛠️ Tech Stack
 
-### Apps and Packages
+- **Monorepo Manager**: [Turborepo](https://turbo.build/) & [pnpm workspaces](https://pnpm.io/workspaces)
+- **Frontend App**: [Next.js](https://nextjs.org/) (App Router, Turbopack, React 19)
+- **Backend API**: Node.js, [Express](https://expressjs.com/), [tRPC Server](https://trpc.io/)
+- **API Documentation**: [trpc-to-openapi](https://github.com/jlalmes/trpc-to-openapi) & [Scalar API Reference](https://scalar.com/)
+- **Database Layer**: [Neon Serverless PostgreSQL](https://neon.tech/) & [Drizzle ORM](https://orm.drizzle.team/)
+- **Authentication**: JWT (HMAC sha256 + random salt) with Next.js Middleware route guards
+- **Styling & Icons**: Vanilla CSS & Tailwind CSS, [Lucide React](https://lucide.dev/), and [Framer Motion](https://www.framer.com/motion/)
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@patra/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@patra/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@patra/typescript-config`: `tsconfig.json`s used throughout the monorepo
+---
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
+## 📂 Monorepo Structure
 
 ```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+├── apps/
+│   ├── api/                 # Express backend server (tRPC & OpenAPI endpoints)
+│   └── web/                 # Next.js frontend client & builder UI
+├── packages/
+│   ├── database/            # Neon PostgreSQL connection, Drizzle schemas, & seeds
+│   ├── trpc/                # Shared tRPC routers, inputs, schemas, and client utils
+│   ├── services/            # Hashing, JWT, DB models, and core SaaS business logic
+│   ├── typescript-config/   # Shared tsconfig profiles
+│   ├── eslint-config/       # Linting presets
+│   └── logger/              # Shared debugging logs library
+├── package.json             # Monorepo scripts & dependencies configuration
+├── turbo.json               # Turborepo task pipeline configuration
+└── pnpm-workspace.yaml      # Monorepo workspace declarations
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+---
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+## 📐 Architecture
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+```mermaid
+graph TD
+    Client[Next.js Web App / Client]
+    Proxy[Next.js Middleware Proxy]
+    API[Express Server / API]
+    TRPC[tRPC Adapter]
+    REST[OpenAPI REST Adapter]
+    Docs[Scalar Docs /docs]
+    Services[Core Services Layer]
+    DB[(Neon Serverless DB)]
 
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+    Client -->|/trpc request| Proxy
+    Client -->|/api REST request| Proxy
+    Proxy -->|forward to port 8000| API
+    
+    API -->|/trpc/*| TRPC
+    API -->|/api/*| REST
+    API -->|/docs| Docs
+    
+    TRPC --> Services
+    REST --> Services
+    Services --> DB
 ```
 
-### Remote Caching
+---
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+## 🗄️ Database Schema & Models
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+Patra.io uses Drizzle ORM mapped to PostgreSQL tables:
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+### 1. `users` Table
+- `id` (UUID, Primary Key)
+- `name` (varchar 80)
+- `email` (varchar 255, Unique)
+- `role` (varchar 20, default: `"creator"`)
+- `plan` (varchar 20, default: `"free"`)
+- `password` (text, Hashed)
+- `salt` (text)
+- `createdAt` & `updatedAt`
 
+### 2. `themes` Table
+- `id` (UUID, Primary Key)
+- `name` (varchar 100)
+- `creatorId` (FK users.id, Cascade)
+- `colors` (JSONB: primary, secondary, background, text, accent)
+- `fontFamily` (varchar 100)
+- `borderRadius` (varchar 20)
+- `isSystem` (boolean)
+
+### 3. `forms` Table
+- `id` (UUID, Primary Key)
+- `creatorId` (FK users.id, Cascade)
+- `title` (varchar 255)
+- `description` (text)
+- `slug` (varchar 100, Unique)
+- `visibility` (`"public"` | `"unlisted"` | `"private"`)
+- `status` (`"draft"` | `"published"`)
+- `themeId` (FK themes.id, Set Null)
+- `settings` (JSONB: maxResponses, showProgressBar)
+
+### 4. `fields` Table
+- `id` (UUID, Primary Key)
+- `formId` (FK forms.id, Cascade)
+- `type` (varchar 50: `short_text`, `rating`, `dropdown`, etc.)
+- `label` (text), `description` (text), `placeholder` (text)
+- `required` (boolean)
+- `order` (integer)
+- `options` (JSONB)
+- `validations` (JSONB: minLength, maxLength, min, max)
+- `conditionalRules` (JSONB)
+- `properties` (JSONB: maxRating, shape)
+---
+
+## 🔒 Authentication Flow
+1. **Sign Up/Login**: Password checked via SHA-256 HMAC + Salt validation.
+2. **Tokens**: JWT signed by backend using `JWT_SECRET` and returned to frontend client.
+3. **Session Cookie**: Auth hook sets a lightweight `patra_logged_in` cookie.
+4. **Middleware Protection**: Next.js route middleware reads the `patra_logged_in` cookie server-side, redirecting unauthorized traffic requesting `/dashboard` or `/forms` directly to `/login`.
+
+---
+
+## 🔌 API Routes (OpenAPI Auto-Docs)
+
+Our Express server exposes OpenAPI-compliant REST endpoints alongside the tRPC server. 
+You can view the full interactive playground and try endpoints under the **/docs** route.
+
+### Key API Actions:
+- **Authentication**: `POST /api/authentication/register`, `POST /api/authentication/login`, `GET /api/authentication/me`
+- **Forms**: `GET /api/form.list`, `POST /api/form.create`, `PATCH /api/form.update`
+- **Submissions**: `POST /api/submission.create`, `GET /api/submission.listByForm`
+
+---
+
+## ⚙️ Environment Variables
+
+Copy the `.env` template variables into your workspace root `.env` file:
+
+```env
+# Database Settings
+DATABASE_URL=postgresql://<username>:<password>@<host>/neondb?sslmode=require
+
+# Server Config
+PORT=8000
+BASE_URL=http://localhost:8000
+NODE_ENV=development
+
+# Authentication Secrets
+JWT_SECRET=your-64-character-production-secret
+JWT_EXPIRES_IN=7d
+
+# Frontend API URL Proxy
+NEXT_PUBLIC_API_URL=http://localhost:8000/trpc
+
+# OAuth Settings (Optional)
+GOOGLE_OAUTH_CLIENT_ID=your-google-client-id
+GOOGLE_OAUTH_CLIENT_SECRET=your-google-client-secret
+GOOGLE_OAUTH_REDIRECT_URI=http://localhost:8000/oauth2callback
 ```
-cd my-turborepo
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
+---
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+## 🚀 Setup & Local Development
+
+Make sure you have [Node.js](https://nodejs.org/) (>= 18) and [pnpm](https://pnpm.io/) installed.
+
+### 1. Install Dependencies
+```bash
+pnpm install
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+### 2. Database Migrations & Seeds
+Push migrations to your Neon database and run the seeds to populate system templates and a demo account:
+```bash
+# Push schema migrations
+pnpm db:generate
+pnpm db:migrate
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+# Seed initial themes, a user, 3 forms, and 70 submissions
+pnpm db:seed
 ```
 
-## Useful Links
+### 3. Run Development Servers
+Start Turborepo's parallel dev server. It spins up the frontend web app on `http://localhost:3000` and the Express API backend on `http://localhost:8000`:
+```bash
+pnpm dev
+```
 
-Learn more about the power of Turborepo:
+### 4. Code Formatting & TypeScript Checks
+```bash
+# Run lint checks
+pnpm lint
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+# Run prettier formatting
+pnpm format
+
+# Verify typescript compiling
+pnpm check-types
+```
+
+---
+
+## 🔑 Demo Account Credentials
+
+Use the following seeded credentials to explore the dashboard immediately:
+- **Email**: `demo@patra.io`
+- **Password**: `password123`
+
+---
+
+## 🐳 Build & Production Deployment
+
+To compile and optimize the monorepo packages for deployment:
+```bash
+pnpm build
+```
+
+### Deployment Configuration Tips:
+- **Frontend (Vercel)**: Point your build configuration to the `apps/web` workspace. Ensure you set `NEXT_PUBLIC_API_URL` to point to your live backend endpoint `/trpc`.
+- **Backend (Render / Railway)**: Point to `apps/api`. Set your `NODE_ENV` to `production` and configure a unique `JWT_SECRET` in environment settings.
