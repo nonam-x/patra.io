@@ -171,12 +171,15 @@ class FormService {
       .where(whereClause);
 
     return {
-      forms,
+      forms: forms.map((f) => ({
+        ...f,
+        responseCount: Number(f.responseCount),
+      })),
       pagination: {
         page,
         limit,
-        total: totalResult?.total ?? 0,
-        totalPages: Math.ceil((totalResult?.total ?? 0) / limit),
+        total: Number(totalResult?.total ?? 0),
+        totalPages: Math.ceil(Number(totalResult?.total ?? 0) / limit),
       },
     };
   }
@@ -269,12 +272,15 @@ class FormService {
       .where(whereClause);
 
     return {
-      forms,
+      forms: forms.map((f) => ({
+        ...f,
+        responseCount: Number(f.responseCount),
+      })),
       pagination: {
         page,
         limit,
-        total: totalResult?.total ?? 0,
-        totalPages: Math.ceil((totalResult?.total ?? 0) / limit),
+        total: Number(totalResult?.total ?? 0),
+        totalPages: Math.ceil(Number(totalResult?.total ?? 0) / limit),
       },
     };
   }

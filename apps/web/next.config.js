@@ -1,13 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async rewrites() {
-    const apiHost = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/trpc";
+    const isProd = process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
+    const defaultProdApiUrl = "https://patra-io.onrender.com/trpc";
+    const apiHost = process.env.NEXT_PUBLIC_API_URL || (isProd ? defaultProdApiUrl : "http://localhost:8000/trpc");
 
     if (process.env.VERCEL === "1" && !process.env.NEXT_PUBLIC_API_URL) {
-      console.error(
-        "\x1b[31m[Error] NEXT_PUBLIC_API_URL is not set on Vercel! " +
-        "This will fall back to localhost, causing Vercel proxy requests to fail with DNS_HOSTNAME_RESOLVED_PRIVATE. " +
-        "Please add NEXT_PUBLIC_API_URL (e.g., https://patra-io.onrender.com/trpc) in Vercel Project Settings.\x1b[0m"
+      console.warn(
+        "\x1b[33m[Warning] NEXT_PUBLIC_API_URL is not set on Vercel! " +
+        "Falling back to default production Render URL: " + defaultProdApiUrl + "\x1b[0m"
       );
     }
 

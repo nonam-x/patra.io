@@ -18,7 +18,7 @@ class AnalyticsService {
       .from(submissionsTable)
       .where(eq(submissionsTable.formId, formId));
 
-    const totalResponses = responseCount?.total ?? 0;
+    const totalResponses = Number(responseCount?.total ?? 0);
 
     // Average completion time (seconds between startedAt and completedAt)
     const [avgTime] = await db
@@ -79,7 +79,7 @@ class AnalyticsService {
           .limit(20); // Top 20 answers
 
         const totalForField = distribution.reduce(
-          (sum, d) => sum + d.count,
+          (sum, d) => sum + Number(d.count),
           0,
         );
 
@@ -89,10 +89,10 @@ class AnalyticsService {
           fieldType: field.type,
           answerDistribution: distribution.map((d) => ({
             value: d.value ?? "(empty)",
-            count: d.count,
+            count: Number(d.count),
             percentage:
               totalForField > 0
-                ? Math.round((d.count / totalForField) * 10000) / 100
+                ? Math.round((Number(d.count) / totalForField) * 10000) / 100
                 : 0,
           })),
         };
@@ -105,7 +105,7 @@ class AnalyticsService {
       avgCompletionTimeSeconds: avgTime?.avg ?? null,
       responsesOverTime: responsesOverTime.map((r) => ({
         date: r.date,
-        count: r.count,
+        count: Number(r.count),
       })),
       fieldBreakdown,
     };
@@ -156,14 +156,14 @@ class AnalyticsService {
       .limit(5);
 
     return {
-      totalForms: formCount?.total ?? 0,
-      totalResponses: totalResponseCount?.total ?? 0,
-      publishedForms: publishedCount?.total ?? 0,
+      totalForms: Number(formCount?.total ?? 0),
+      totalResponses: Number(totalResponseCount?.total ?? 0),
+      publishedForms: Number(publishedCount?.total ?? 0),
       recentForms: recentForms.map((f) => ({
         id: f.id,
         title: f.title,
         status: f.status,
-        responseCount: f.responseCount,
+        responseCount: Number(f.responseCount),
         createdAt: f.createdAt?.toISOString() ?? null,
       })),
     };

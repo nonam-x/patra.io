@@ -6,14 +6,15 @@ interface CreateTRPCHttpBatchClientClientOpts {
 
 export const createTRPCHttpBatchClientClient = (opts?: CreateTRPCHttpBatchClientClientOpts) => {
   const c = opts?.enableStreaming ? httpBatchStreamLink : httpLink;
+  const isProd = process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
 
   // Direct client request configuration:
-  // If NEXT_PUBLIC_API_URL is configured (e.g. https://patra-io.onrender.com/trpc), we call the API directly.
-  // This bypasses Next.js rewrite proxying on Vercel, solving DNS_HOSTNAME_RESOLVED_PRIVATE 404s.
-  // CORS is already configured on Express to support this.
+  // In production, we call NEXT_PUBLIC_API_URL directly from the client to avoid Vercel rewrite proxy overhead and 404s.
+  // In development, we use relative /api/trpc so Next.js handles proxying, allowing mobile emulators/devices to connect.
+  const defaultProdApiUrl = "https://patra-io.onrender.com/trpc";
   const apiHost = typeof window !== "undefined"
-    ? (process.env.NEXT_PUBLIC_API_URL || "/api/trpc")
-    : (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/trpc");
+    ? (isProd ? (process.env.NEXT_PUBLIC_API_URL || defaultProdApiUrl) : "/api/trpc")
+    : (process.env.NEXT_PUBLIC_API_URL || (isProd ? defaultProdApiUrl : "http://localhost:8000/trpc"));
 
   return c({
     url: apiHost,
